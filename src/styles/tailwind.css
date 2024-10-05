@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Bodoni';
+    src: url('src/fonts/bodoni/BodoniModa-Italic-VariableFont_opsz,wght.ttf') format('truetype'),
+         url('src/fonts/bodoni/BodoniModa-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+  
