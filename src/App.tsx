@@ -21,7 +21,7 @@ const App: React.FC = () => {
           </Suspense>
         </BrowserRouter>
           :
-        <div className='w-full h-screen flex py-10 justify-center font-serif'>
+        <div className='w-full h-screen flex py-10 justify-center font-montserrat'>
           <p>Desktop Version Currently Not Available</p>
         </div>
       }
