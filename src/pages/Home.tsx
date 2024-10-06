@@ -1,14 +1,10 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import LandingImage from '../components/Home/LandingImage'
-import Footer from '../components/Footer'
 import AboutImage from '../components/Home/AboutImage'
 
 const Home: React.FC = () => {
   return (
-    <>
-      <Navbar />
-      
+    <>      
       <div className='mt-16 flex flex-col justify-center w-full'>
         <LandingImage />
         <div className='h-72 bg-pink-100 flex flex-col justify-center items-center gap-5 px-8 font-montserrat '>
@@ -29,8 +25,6 @@ const Home: React.FC = () => {
         <AboutImage src="/img/about2.jpg" title='Curated For You' text='From vintage teacups to full dinner sets, our handpicked collection offers something for every lover of elegant design and quality craftsmanship.' />
         <AboutImage src="/img/about3.jpg" title='Chosen with Care' text="Vintage Royale CEO, Josephine Elderfield, personally selects each Royal Albert piece, offering only the finest examples of craftsmanship and tradition for your collection." />
       </div>
-      
-      <Footer />
     </>
   )
 }

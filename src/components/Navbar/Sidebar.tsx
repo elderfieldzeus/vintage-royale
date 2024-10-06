@@ -22,9 +22,9 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu }) => {
 						<Searchbar />
             <div className='flex flex-col mt-4'>
               <NavigateButton href='/' title='Home' />
-              <NavigateButton href='/' title='Products' />
-              <NavigateButton href='/' title='Cart' />
-              <NavigateButton href='/' title='Contact' />
+              <NavigateButton href='/products' title='Products' />
+              <NavigateButton href='/cart' title='Cart' />
+              <NavigateButton href='/contact' title='Contact' />
             </div>
 				</div> }   
       </div>
