@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Searchbar from './Searchbar';
 
 interface ISidebar {
-    showMenu: Boolean;
+    showMenu: boolean;
 }
 
 const Sidebar: React.FC<ISidebar> = ({ showMenu }) => {
@@ -14,7 +14,7 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu }) => {
     }, [showMenu]);
 
   return (
-    <div className={`fixed w-screen h-full ${full && 'bg-black'} bg-opacity-60 transition-all duration-500`}>
+    <div className={`fixed w-screen h-full ${full && 'bg-black'} bg-opacity-60 transition-all duration-500 z-10`}>
       <div className={`${full ? 'w-11/12' : 'w-0'} h-full bg-white transition-all duration-300 p-4`}>
 				{showMenu &&
 				<div className={`${full? 'opacity-100':'opacity-0'} transition-all delay-75 duration-300`}>
