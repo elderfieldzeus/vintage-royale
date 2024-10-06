@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Searchbar from './Searchbar';
+import NavigateButton from './NavigateButton';
 
 interface ISidebar {
     showMenu: boolean;
@@ -18,7 +19,13 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu }) => {
       <div className={`${full ? 'w-11/12 p-4' : 'w-0'} h-full bg-white transition-all duration-300`}>
 				{showMenu &&
 				<div className={`${full? 'opacity-100':'opacity-0'} transition-all delay-75 duration-300`}>
-						{full && <Searchbar />}
+						<Searchbar />
+            <div className='flex flex-col mt-4'>
+              <NavigateButton href='/' title='Home' />
+              <NavigateButton href='/' title='Products' />
+              <NavigateButton href='/' title='Cart' />
+              <NavigateButton href='/' title='Contact' />
+            </div>
 				</div> }   
       </div>
     </div>
