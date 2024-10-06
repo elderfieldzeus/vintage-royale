@@ -2,7 +2,7 @@ import React from 'react'
 
 const LandingImage: React.FC = () => {
   return (
-    <img src="src/img/landing.jpg" alt="Landing Image" />
+    <img src="./src/img/landing.jpg" alt="Landing Image" />
   )
 }
 
