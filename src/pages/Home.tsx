@@ -1,8 +1,11 @@
 import React from 'react'
+import Navbar from '../components/Navbar/Navbar'
 
 const Home: React.FC = () => {
   return (
-    <div className='font-bodoni font-bold'>Vintage Royale</div>
+    <>
+      <Navbar /> 
+    </>
   )
 }
 
