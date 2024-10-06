@@ -1,18 +1,12 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
+import { useMediaQuery } from 'react-responsive';
 
 const App: React.FC = () => {
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  useEffect(() => {
-    function isMobileFunc() {
-      const minWidth = 768;
-      return window.innerWidth < minWidth || screen.width < minWidth;
-    }
-    
-    setIsMobile(isMobileFunc());
-  }, []);
+  const isMobile = useMediaQuery({
+    query: "(max-width: 640px)"
+  });
 
   return (
     <>
@@ -27,8 +21,8 @@ const App: React.FC = () => {
           </Suspense>
         </BrowserRouter>
           :
-        <div>
-          Desktop Version Currently Not Available
+        <div className='w-full h-screen flex py-10 justify-center font-serif'>
+          <p>Desktop Version Currently Not Available</p>
         </div>
       }
     </>
