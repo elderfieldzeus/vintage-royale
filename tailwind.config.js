@@ -5,7 +5,6 @@ export default {
     extend: {
       fontFamily: {
         bodoni: ["Bodoni", "sans-serif"],
-        ibodoni: ["Bodoni-Italic", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"]
       }
     },

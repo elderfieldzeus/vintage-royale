@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <div className={`h-16 px-5 flex font-ibodoni gap-4 items-center fixed top-0 w-full z-10 bg-white transition-all delay-75 duration-500 ${showMenu && 'border-b border-b-gray-300'}`}>
+      <div className={`h-16 px-5 flex font-bodoni gap-4 items-center fixed top-0 w-full z-10 bg-white transition-all delay-75 duration-500 ${showMenu && 'border-b border-b-gray-300'}`}>
         <button onClick={ handleshowSide } className='transition-all duration-600 ease-linear'>
           <MenuIcon className='size-8'/>
         </button>
