@@ -7,7 +7,7 @@ interface ILink {
 
 const Link: React.FC<ILink> = ({link, name}) => {
   return (
-	  <a href={link} className='underline'>{name}</a>
+	  <a href={link} target='_blank' className='underline'>{name}</a>
   )
 }
 
