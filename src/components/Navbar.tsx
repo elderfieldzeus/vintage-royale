@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { PiListThin, PiXThin, PiShoppingCartThin} from "react-icons/pi";
-import Sidebar from './Sidebar';
+import { PiListThin, PiXThin, PiShoppingCartThin } from "react-icons/pi";
+import Sidebar from './Navbar/Sidebar';
 import { IconType } from 'react-icons';
 
 const Navbar: React.FC = () => {
   const [showSide, setShowSide] = useState<boolean>(false);
-  const [showMenu, setShowMenu] = useState<boolean>(false); 
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const handleshowSide: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const target = e.currentTarget;
@@ -18,13 +18,13 @@ const Navbar: React.FC = () => {
       target.classList.add("opacity-100");
       target.classList.remove("opacity-0");
       target.disabled = false;
-    }, 600);
+    }, 500);
 
     setShowMenu(prev => !prev);
 
     setTimeout(() => {
       setShowSide(prev => !prev);
-    }, (showSide) ? 450 : 200);
+    }, !showSide ? 150 : 450);
 
   }
 
@@ -33,14 +33,14 @@ const Navbar: React.FC = () => {
   return (
     <>
       <div className={`h-16 px-5 flex font-bodoni gap-4 items-center fixed top-0 w-full z-10 bg-white transition-all delay-75 duration-500 ${showMenu && 'border-b border-b-gray-300'}`}>
-        <button onClick={ handleshowSide } className='transition-all duration-600 ease-linear'>
-          <MenuIcon className='size-8'/>
+        <button onClick={handleshowSide} className='transition-all duration-300 ease-out'>
+          <MenuIcon className='size-8' />
         </button>
         
         <p className='w-full text-lg'>Vintage Royale</p>
         <PiShoppingCartThin className='size-10' />
       </div>
-      {showSide && <Sidebar showMenu={ showMenu } />}
+      {showSide && <Sidebar showMenu={showMenu} />}
     </>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
-import Navbar from '../components/Navbar/Navbar'
+import Navbar from '../components/Navbar'
 import LandingImage from '../components/Home/LandingImage'
+import Footer from '../components/Footer'
 
 const Home: React.FC = () => {
   return (
@@ -13,8 +14,9 @@ const Home: React.FC = () => {
           <p className='text-sm text-center'>Experience the elegance of Royal Albert tea sets, where fine china transforms tea moments into royal occasions. Perfect for garden parties or quiet afternoons, our curated collection adds a touch of vintage luxury to your table.</p>
         </div>
       </div>
+      <Footer />
     </>
   )
 }
 
-export default Home
+export default Home;
