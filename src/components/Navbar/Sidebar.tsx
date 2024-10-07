@@ -3,10 +3,11 @@ import Searchbar from './Searchbar';
 import NavigateButton from './NavigateButton';
 
 interface ISidebar {
-    showMenu: boolean;
+  showMenu: boolean;
+  closeMenu: () => void;
 }
 
-const Sidebar: React.FC<ISidebar> = ({ showMenu }) => {
+const Sidebar: React.FC<ISidebar> = ({ showMenu, closeMenu }) => {
     const [full, setFull] = useState<boolean>(false);
     useEffect(() => {
         setTimeout(() => {
@@ -21,10 +22,10 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu }) => {
 				<div className={`${full? 'opacity-100':'opacity-0'} transition-all delay-75 duration-300`}>
 						<Searchbar />
             <div className='flex flex-col mt-4'>
-              <NavigateButton href='/' title='Home' />
-              <NavigateButton href='/products' title='Products' />
-              <NavigateButton href='/cart' title='Cart' />
-              <NavigateButton href='/contact' title='Contact' />
+              <NavigateButton href='/' title='Home' closeMenu={closeMenu} />
+              <NavigateButton href='/products' title='Products' closeMenu={closeMenu} />
+              <NavigateButton href='/cart' title='Cart' closeMenu={closeMenu} />
+              <NavigateButton href='/contact' title='Contact' closeMenu={closeMenu} />
             </div>
 				</div> }   
       </div>
