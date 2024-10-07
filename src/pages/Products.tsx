@@ -14,11 +14,11 @@ const Products: React.FC=() => {
 				<p className='text-gray-500 text-sm text-justify leading-5'>Discover the timeless elegance of Royal Albert's fine bone china, known for its classic British design and craftsmanship. Perfect for both special occasions and everyday luxury.</p>
 			</div>
 
-			<div className='grid grid-cols-2 h-10 w-full text-center text-xs font-montserrat text-gray-500 border-y-2'>
+			<div className='grid grid-cols-2 h-10 w-full text-center text-xs font-montserrat text-gray-500 border-y'>
 				<div className='flex items-center justify-center border-r'>
 					<p>Filter</p>
 				</div>
-				<div className='flex items-center justify-center border-l'>
+				<div className='flex items-center justify-center'>
 					<p>Sort by</p>
 				</div>
 			</div>
