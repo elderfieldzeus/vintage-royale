@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import ScrollToTop from './ScrollToTop'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import { signOut } from '../services/auth'
 
-const Client: React.FC = () => {
+const ClientLayout: React.FC = () => {
+  useEffect(() => {
+    signOut();
+  }, []);
+
   return (
     <>
         <ScrollToTop />
@@ -17,4 +22,4 @@ const Client: React.FC = () => {
   )
 }
 
-export default Client
+export default ClientLayout

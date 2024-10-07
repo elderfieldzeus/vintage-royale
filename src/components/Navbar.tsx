@@ -61,12 +61,15 @@ const Navbar: React.FC<INavbar> = ({isAdmin}) => {
         </button>
         
         <p className='w-full text-lg'>Vintage Royale</p>
-        <Link to="/cart" onClick={closeMenu} className='flex justify-center'>
+        {
+        isAdmin
+          ||
+          <Link to="/cart" onClick={closeMenu} className='flex justify-center'>
           <PiShoppingCartThin className='size-7'/>
         </Link>
+        }
       </div>
-      {showSide && <Sidebar showMenu={showMenu} closeMenu={closeMenu}/>}
-      {isAdmin && 'meow'}
+      {showSide && <Sidebar showMenu={showMenu} closeMenu={closeMenu} isAdmin = {isAdmin}/>}
     </>
   )
 }

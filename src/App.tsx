@@ -4,10 +4,13 @@ import { useMediaQuery } from 'react-responsive';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Contact from './pages/Contact';
-import Client from './components/Client';
+import ClientLayout from './components/ClientLayout';
 import Home from './pages/Home';
-import Admin from './components/Admin';
+import AdminLayout from './components/AdminLayout';
 import Login from './pages/Login';
+import Admin from './pages/Admin';
+import Orders from './pages/Orders';
+import HandleProducts from './pages/HandleProducts';
 
 const App: React.FC = () => {
   const isMobile = useMediaQuery({
@@ -23,15 +26,17 @@ const App: React.FC = () => {
 						<BrowserRouter>
 							<Suspense fallback={<>Loading...</>} >
 								<Routes>
-										<Route path='/' element={<Client/>}>
+										<Route path='/' element={<ClientLayout/>}>
                       <Route path='' element={ <Home /> } />
                       <Route path='products' element={ <Products />} />
                       <Route path='cart' element={ <Cart /> } />
                       <Route path='contact' element={ <Contact /> } />
                       <Route path='login' element={<Login />} />
                     </Route>
-                    <Route path='/admin' element={<Admin />}>
-                      
+                    <Route path='/admin/' element={<AdminLayout />}>
+                      <Route path='' element={ <Admin /> } />
+                      <Route path='orders' element={ <Orders /> } />
+                      <Route path='products' element={ <HandleProducts /> } />
                     </Route>
 								</Routes>
 							</Suspense>
