@@ -5,6 +5,8 @@ import { useMediaQuery } from 'react-responsive';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Products from './pages/Products';
+import Cart from './pages/Cart';
+import Contact from './pages/Contact';
 
 const App: React.FC = () => {
   const isMobile = useMediaQuery({
@@ -23,8 +25,8 @@ const App: React.FC = () => {
 								<Routes>
 										<Route path='/' element={ <Home /> } />
 										<Route path='/products' element={ <Products />} />
-										<Route path='/cart' element={ "cart" } />
-										<Route path='/contact' element={ "contact" } />
+										<Route path='/cart' element={ <Cart /> } />
+										<Route path='/contact' element={ <Contact /> } />
 								</Routes>
 							</Suspense>
 						</BrowserRouter>

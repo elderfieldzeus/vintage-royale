@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { PiListThin, PiXThin, PiShoppingCartThin } from "react-icons/pi";
 import Sidebar from './Navbar/Sidebar';
 import { IconType } from 'react-icons';
+import {Link} from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [showSide, setShowSide] = useState<boolean>(false);
@@ -29,6 +30,29 @@ const Navbar: React.FC = () => {
     setTimeout(() => {
       setShowSide(prev => !prev);
     }, !showSide ? 150 : 450);
+  }
+  
+  const closeMenu = (): void => {
+    if(buttonRef.current===null) return;
+    buttonRef.current.focus();
+    
+    buttonRef.current.classList.add("opacity-0");
+    buttonRef.current.classList.remove("opacity-100");
+    buttonRef.current.disabled=true;
+
+    setTimeout(() => {
+      if(buttonRef.current===null) return;
+      
+      buttonRef.current.classList.add("opacity-100");
+      buttonRef.current.classList.remove("opacity-0");
+      buttonRef.current.disabled=false;
+    },500);
+    
+    setShowMenu(false);
+
+    setTimeout(() => {
+      setShowSide(false);
+    }, 450);
 
   }
 
@@ -42,9 +66,11 @@ const Navbar: React.FC = () => {
         </button>
         
         <p className='w-full text-lg'>Vintage Royale</p>
-        <PiShoppingCartThin className='size-10' />
+        <Link to="/cart" onClick={closeMenu} className='flex justify-center'>
+          <PiShoppingCartThin className='size-7'/>
+        </Link>
       </div>
-      {showSide && <Sidebar showMenu={showMenu} closeMenu={handleshowSide}/>}
+      {showSide && <Sidebar showMenu={showMenu} closeMenu={closeMenu}/>}
     </>
   )
 }
