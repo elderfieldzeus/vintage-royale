@@ -11,7 +11,7 @@ const Products: React.FC=() => {
 
 			<div className='flex flex-col font-montserrat px-5 py-8 gap-2'>
 				<p className='text-2xl leading-none'>Royal Albert</p>
-				<p className='text-gray-500 text-sm text-justify leading-5'>Discover the timeless elegance of Royal Albert's fine bone china, known for its classic British design and craftsmanship. Perfect for both special occasions and everyday luxury.</p>
+				<p className='text-gray-500 text-xs text-justify leading-4'>Discover the timeless elegance of Royal Albert's fine bone china, known for its classic British design and craftsmanship. Perfect for both special occasions and everyday luxury.</p>
 			</div>
 
 			<div className='grid grid-cols-2 h-10 w-full text-center text-xs font-montserrat text-gray-500 border-y'>
