@@ -4,12 +4,16 @@ import Sidebar from './Navbar/Sidebar';
 import { IconType } from 'react-icons';
 import {Link} from 'react-router-dom';
 
-const Navbar: React.FC = () => {
+interface INavbar {
+  isAdmin: boolean;
+}
+
+const Navbar: React.FC<INavbar> = ({isAdmin}) => {
   const [showSide, setShowSide] = useState<boolean>(false);
   const [showMenu,setShowMenu]=useState<boolean>(false);
   const buttonRef=useRef<HTMLButtonElement>(null);
 
-  const handleshowSide = (): void => {
+  const handleFadeInOut = (): void => {
     if(buttonRef.current===null) return;
     buttonRef.current.focus();
     
@@ -24,6 +28,10 @@ const Navbar: React.FC = () => {
       buttonRef.current.classList.remove("opacity-0");
       buttonRef.current.disabled=false;
     },500);
+  }
+
+  const handleshowSide = (): void => {
+    handleFadeInOut();
     
     setShowMenu(prev => !prev);
 
@@ -33,20 +41,7 @@ const Navbar: React.FC = () => {
   }
   
   const closeMenu = (): void => {
-    if(buttonRef.current===null) return;
-    buttonRef.current.focus();
-    
-    buttonRef.current.classList.add("opacity-0");
-    buttonRef.current.classList.remove("opacity-100");
-    buttonRef.current.disabled=true;
-
-    setTimeout(() => {
-      if(buttonRef.current===null) return;
-      
-      buttonRef.current.classList.add("opacity-100");
-      buttonRef.current.classList.remove("opacity-0");
-      buttonRef.current.disabled=false;
-    },500);
+    if(showSide) handleFadeInOut();
     
     setShowMenu(false);
 
@@ -71,6 +66,7 @@ const Navbar: React.FC = () => {
         </Link>
       </div>
       {showSide && <Sidebar showMenu={showMenu} closeMenu={closeMenu}/>}
+      {isAdmin && 'meow'}
     </>
   )
 }

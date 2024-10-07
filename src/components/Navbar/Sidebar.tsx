@@ -20,7 +20,7 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu, closeMenu }) => {
       <div className={`${full ? 'w-11/12 p-4' : 'w-0'} h-full bg-white transition-all duration-300`}>
 				{showMenu &&
 				<div className={`${full? 'opacity-100':'opacity-0'} transition-all delay-75 duration-300`}>
-						<Searchbar />
+						<Searchbar closeMenu = {closeMenu} />
             <div className='flex flex-col mt-4'>
               <NavigateButton href='/' title='Home' closeMenu={closeMenu} />
               <NavigateButton href='/products' title='Products' closeMenu={closeMenu} />

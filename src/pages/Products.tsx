@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../components/Products/Card'
+import { getProductPage } from '../services/product';
+import { Product } from '../utilities/DTO/Product';
 
 const Products: React.FC=() => {
+	const [products, setProducts] = useState<Product[]>([]);
+	const [offset] = useState<number>(0);
+
+	useEffect(() => {
+		getProductPage((data) => {
+			setProducts(data);
+			console.log(products);
+		}, offset);
+	}, [offset]);
+
 	return (
 		<>
 			<div className='mt-16 h-40 overflow-hidden w-full relative'>
