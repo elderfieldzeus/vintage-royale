@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
-import { PiListThin, PiXThin, PiShoppingCartThin } from "react-icons/pi";
+import React, { useEffect, useRef, useState } from 'react'
+import { PiListThin, PiXThin, PiShoppingCartThin, PiCameraPlusThin } from "react-icons/pi";
 import Sidebar from './Navbar/Sidebar';
 import { IconType } from 'react-icons';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
 interface INavbar {
   isAdmin: boolean;
@@ -11,8 +11,10 @@ interface INavbar {
 const Navbar: React.FC<INavbar> = ({isAdmin}) => {
   const [showSide, setShowSide] = useState<boolean>(false);
   const [showMenu,setShowMenu]=useState<boolean>(false);
+  const [isAdminProduct, setAdminProduct] = useState<boolean>(false);
   
   const buttonRef=useRef<HTMLButtonElement>(null);
+  const { pathname } = useLocation();
 
   const handleFadeInOut = (): void => {
     if(buttonRef.current===null) return;
@@ -54,6 +56,15 @@ const Navbar: React.FC<INavbar> = ({isAdmin}) => {
 
   const MenuIcon: IconType = showSide ? PiXThin : PiListThin;
 
+  useEffect(() => {
+    if(pathname === '/admin/products') {
+      setAdminProduct(true);
+    }
+    else {
+      setAdminProduct(false);
+    }
+  }, [pathname]);
+
   return (
     <>
       <div className={`h-16 px-5 flex font-bodoni gap-4 items-center fixed top-0 w-full z-10 bg-white transition-all delay-75 duration-500 ${showMenu && 'border-b border-b-gray-300'}`}>
@@ -67,6 +78,13 @@ const Navbar: React.FC<INavbar> = ({isAdmin}) => {
           ||
           <Link to="/cart" onClick={closeMenu} className='flex justify-center'>
             <PiShoppingCartThin className='size-7'/>
+          </Link>
+        }
+        {
+          isAdminProduct
+          &&
+          <Link to="/admin/products/create" onClick={closeMenu} className='flex justify-center'>
+            <PiCameraPlusThin className='size-7'/>
           </Link>
         }
       </div>

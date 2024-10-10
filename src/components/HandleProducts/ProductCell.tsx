@@ -4,7 +4,7 @@ import { PiDotsThreeVerticalThin } from 'react-icons/pi'
 const ProductCell: React.FC = () => {
   return (
     <div className='w-full h-24 font-montserrat flex items-center'>
-        <div className='w-1/5 h-full flex justify-center items-center font-bold'>
+        <div className='w-1/5 h-full flex justify-center items-center'>
             <p className='text-xs'>1</p>
         </div>
         <div className='w-1/5 h-full flex justify-center items-center overflow-hidden'>
