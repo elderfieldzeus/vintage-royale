@@ -1,5 +1,6 @@
 import React from 'react'
 import Card from '../components/Products/Card'
+import Filter from '../components/Filter'
 // import { getProductPage } from '../services/product';
 // import { Product } from '../utilities/DTO/Product';
 
@@ -26,14 +27,7 @@ const Products: React.FC=() => {
 				<p className='text-gray-500 text-xs text-justify leading-4'>Discover the timeless elegance of Royal Albert's fine bone china, known for its classic British design and craftsmanship. Perfect for both special occasions and everyday luxury.</p>
 			</div>
 
-			<div className='grid grid-cols-2 h-10 w-full text-center text-xs font-montserrat text-gray-500 border-y'>
-				<div className='flex items-center justify-center border-r'>
-					<p>Filter</p>
-				</div>
-				<div className='flex items-center justify-center'>
-					<p>Sort by</p>
-				</div>
-			</div>
+			<Filter />
 			
 			{/* Products */}
 			<div className='grid grid-cols-2 justify-evenly p-2 gap-2'>

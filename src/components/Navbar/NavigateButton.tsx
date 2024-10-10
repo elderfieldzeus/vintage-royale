@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 interface INavigateButton {
     title: string;
-  href: string;
+    href: string;
   closeMenu: () => void;
 }
 

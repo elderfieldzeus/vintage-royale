@@ -30,7 +30,7 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu, closeMenu, isAdmin }) => {
                 <NavigateButton href='/admin' title='Home' closeMenu={closeMenu} />
                 <NavigateButton href='/admin/orders' title='Orders' closeMenu={closeMenu} />
                 <NavigateButton href='/admin/products' title='Products' closeMenu={closeMenu} />
-                <NavigateButton href='/' title='Back to Client' closeMenu={closeMenu} />
+                <NavigateButton href='/' title='Log Out' closeMenu={closeMenu} />
               </>
               :
               <>

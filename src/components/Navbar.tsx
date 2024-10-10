@@ -11,6 +11,7 @@ interface INavbar {
 const Navbar: React.FC<INavbar> = ({isAdmin}) => {
   const [showSide, setShowSide] = useState<boolean>(false);
   const [showMenu,setShowMenu]=useState<boolean>(false);
+  
   const buttonRef=useRef<HTMLButtonElement>(null);
 
   const handleFadeInOut = (): void => {
@@ -65,8 +66,8 @@ const Navbar: React.FC<INavbar> = ({isAdmin}) => {
         isAdmin
           ||
           <Link to="/cart" onClick={closeMenu} className='flex justify-center'>
-          <PiShoppingCartThin className='size-7'/>
-        </Link>
+            <PiShoppingCartThin className='size-7'/>
+          </Link>
         }
       </div>
       {showSide && <Sidebar showMenu={showMenu} closeMenu={closeMenu} isAdmin = {isAdmin}/>}
