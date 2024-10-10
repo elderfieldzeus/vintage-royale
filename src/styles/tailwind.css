@@ -18,6 +18,6 @@
     font-style: normal;
 }
 
-select:required:invalid {
-    color: gray;
+select {
+    -webkit-appearance: none
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PiUploadThin } from 'react-icons/pi'
 import ProductInput from '../components/HandleProducts/ProductInput';
+import { FaAngleDown } from 'react-icons/fa';
 
 const AddProduct: React.FC = () => {
     const [images, setImages] = useState<string[]>([]);
@@ -70,15 +71,18 @@ const AddProduct: React.FC = () => {
             <div className='mt-6 mb-14 font-montserrat flex flex-col gap-2'>
                 <p className='text-xl mb-2'>Product Details</p>
                 <ProductInput name='product_name' type='text' placeholder='Product Name'/>
-                <select 
-                    required
-                    name="category" 
-                    className='w-full px-4 py-2 border border-gray-400' defaultValue="default"
-                    onChange={handleSelectOther}
-                >
-                    <option value="default" disabled hidden className='text-gray-400' >Select Category</option>
-                    <option value="_other">Other</option>
-                </select>
+                <div className='relative w-full'>
+                    <FaAngleDown className='text-gray-400 absolute right-4 top-1/2 -translate-y-1/2'/>
+                    <select
+                        required
+                        name="category"
+                        className='w-full px-4 py-2 border border-gray-400' defaultValue="default"
+                        onChange={handleSelectOther}
+                    >
+                        <option value="default" disabled hidden className='text-gray-400' >Select Category</option>
+                        <option value="_other">Other</option>
+                    </select>
+                </div>
                 {
                     addCategory
                     &&
