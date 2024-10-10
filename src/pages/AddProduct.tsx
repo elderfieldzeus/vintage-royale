@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { PiUploadThin } from 'react-icons/pi'
+import ProductInput from '../components/HandleProducts/ProductInput';
 
 const AddProduct: React.FC = () => {
     const [images, setImages] = useState<string[]>([]);
+    const [addCategory, setAddCategory] = useState<boolean>(false);
 
     const handleUploadFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         if(e.target.files) {
@@ -14,6 +16,15 @@ const AddProduct: React.FC = () => {
             }
 
             setImages(paths);
+        }
+    }
+
+    const handleSelectOther: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+        if(e.target.value === '_other') {
+            setAddCategory(true);
+        }
+        else {
+            setAddCategory(false);
         }
     }
 
@@ -52,10 +63,34 @@ const AddProduct: React.FC = () => {
                         );
                     })}
                 </div>
+                <hr className='border-t-2 border-dashed mt-6'/>
             </>
             }
 
-
+            <div className='mt-6 mb-14 font-montserrat flex flex-col gap-2'>
+                <p className='text-xl mb-2'>Product Details</p>
+                <ProductInput name='product_name' type='text' placeholder='Product Name'/>
+                <select 
+                    required
+                    name="category" 
+                    className='w-full px-4 py-2 border border-gray-400' defaultValue="default"
+                    onChange={handleSelectOther}
+                >
+                    <option value="default" disabled hidden className='text-gray-400' >Select Category</option>
+                    <option value="_other">Other</option>
+                </select>
+                {
+                    addCategory
+                    &&
+                    <ProductInput name='new_category' type='text' placeholder='Category Name'/>
+                }
+                <div className='flex gap-2'>
+                    <ProductInput name='price' type='number' placeholder='Price'/>
+                    <ProductInput name='in_stock' type='number' placeholder='In Stock'/>
+                </div>
+                <textarea name="description" className='w-full px-4 py-2 border border-gray-400 h-40 resize-none' placeholder='Description'></textarea>
+                <input type="submit" className='w-full px-4 py-2 border border-gray-400 bg-pink-300 text-white'/>
+            </div>
         </form>
     </>
   )
