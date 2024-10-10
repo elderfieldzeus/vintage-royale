@@ -76,7 +76,7 @@ const AddProduct: React.FC = () => {
                     <select
                         required
                         name="category"
-                        className='w-full px-4 py-2 border border-gray-400' defaultValue="default"
+                        className='w-full bg-white px-4 py-2 border border-gray-400' defaultValue="default"
                         onChange={handleSelectOther}
                     >
                         <option value="default" disabled hidden className='text-gray-400' >Select Category</option>
