@@ -17,8 +17,9 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu, closeMenu, isAdmin }) => {
     }, [showMenu]);
 
   return (
-    <div className={`fixed w-screen h-full ${full && 'bg-black'} bg-opacity-60 transition-all duration-500 z-10`}>
-      <div className={`${full ? 'w-11/12 px-4' : 'w-0'} h-full bg-white transition-all duration-300`}>
+    <>
+      <div className={`fixed w-screen h-full ${full && 'bg-black'} bg-opacity-60 transition-all duration-500 z-10`} onClick={closeMenu}></div>
+      <div className={`${full ? 'w-11/12 px-4' : 'w-0'} h-full bg-white transition-all duration-300 z-20 fixed`}>
 				{showMenu &&
 				<div className={`${full? 'opacity-100':'opacity-0'} transition-all delay-75 duration-300`}>
 						{isAdmin || <Searchbar closeMenu = {closeMenu} />}
@@ -44,7 +45,7 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu, closeMenu, isAdmin }) => {
             </div>
 				</div> }   
       </div>
-    </div>
+    </>
   )
 }
 

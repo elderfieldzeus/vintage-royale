@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import Card from '../components/Products/Card'
 import Filter from '../components/Filter'
-import { getProductPage } from '../services/product';
+import { getProductCount, getProductPage } from '../services/product';
 import { ProductDisplay } from '../utilities/DTO/Product';
 import Loading from '../components/Loading';
+import { PiCaretLeftThin, PiCaretRightThin } from 'react-icons/pi';
 
 const Products: React.FC=() => {
+	const NUMBER_OF_PRODUCTS = 10;
+
 	const [products, setProducts] = useState<ProductDisplay[]>([]);
-	const [offset] = useState<number>(0);
+	const [maxPages, setMaxPages] = useState<number>(0);
+	const [page, setPage] = useState<number>(0);
 	const [loading, setLoading] = useState<boolean>(true);
+
+	useEffect(() => {
+		getProductCount((max) => {
+			setMaxPages(max / NUMBER_OF_PRODUCTS);
+		});
+	}, []);
 
 	useEffect(() => {
 		getProductPage((data) => {
@@ -16,8 +26,13 @@ const Products: React.FC=() => {
 			setTimeout(() => {
 				setLoading(false);
 			}, 1000);
-		}, offset);
-	}, [offset]);
+		}, page, NUMBER_OF_PRODUCTS);
+	}, [page]);
+
+	const handleChangePage = (type: 'left' | 'right'): React.MouseEventHandler<HTMLButtonElement> => () => {
+		setLoading(true);
+		setPage(prev => (type === 'left') ? prev - 1 : prev + 1);
+	}
 
 	return (
 		<>
@@ -47,6 +62,30 @@ const Products: React.FC=() => {
 					);
 				})}
 			</div>
+
+			{
+				loading
+				||
+				<div className='w-full flex justify-center items-center gap-2 my-3'>
+					<button 
+						onClick={handleChangePage('left')}
+						className={`${page === 0 && 'opacity-0'}`} 
+						disabled = {page === 0}
+					>
+						<PiCaretLeftThin className='size-7' />
+					</button>
+					<div className='size-10 rounded-lg flex justify-center items-center bg-pink-300'>
+						<p className='text-white font-bold font-montserrat text-sm'>{page + 1}</p>
+					</div>
+					<button 
+						onClick={handleChangePage('right')}
+						className={`${page >= maxPages - 1 && 'opacity-0'}`} 
+						disabled = {page >= maxPages - 1}
+					>
+						<PiCaretRightThin className='size-7'/>
+					</button>
+				</div>
+			}
 		</>
 	)
 }

@@ -3,13 +3,12 @@ import supabase from "./supabase";
 import { Category } from "../utilities/DTO/Category";
 import { getMainImage } from "./image";
 
-const PRODUCT_OFFSET = 10;
 
-export async function getProductPage(callable: (data: ProductDisplay[]) => void, page: number): Promise<void> {
+export async function getProductPage(callable: (data: ProductDisplay[]) => void, page: number, limit: number): Promise<void> {
     const productQuery = supabase
                     .from("product")
                     .select('*')
-                    .range(page * PRODUCT_OFFSET, (page * PRODUCT_OFFSET) + PRODUCT_OFFSET - 1)
+                    .range(page * limit, (page * limit) + limit - 1)
                     .returns<ProductDisplay[]>();
 
     const { data, error } = await productQuery;
@@ -62,7 +61,7 @@ export async function postCategory(category_name: string): Promise<number> {
     return id;
 }
 
-export async function getCategories(callable: (categories: Category[]) => void) {
+export async function getCategories(callable: (categories: Category[]) => void): Promise<void> {
     const { data, error } = await supabase
                         .from("product_category")
                         .select("*")
@@ -73,4 +72,18 @@ export async function getCategories(callable: (categories: Category[]) => void) 
     }
 
     callable(data ? data : []);
+}
+
+export async function getProductCount(callable: (max : number) => void): Promise<void> {
+    const { count, error } = await supabase 
+                        .from("product")
+                        .select("*", { count: "exact" });
+    
+    if(error) {
+        console.error(error);
+    }
+
+    console.log(count);
+
+    callable(count ? count : 0);
 }
