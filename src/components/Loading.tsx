@@ -3,7 +3,7 @@ import ReactLoading from 'react-loading'
 
 const Loading: React.FC = () => {
   return (
-    <ReactLoading height='2.5rem' width='2.5rem' type='spokes' color='rgb(156 163 175)'/>
+    <ReactLoading height='2.5rem' width='2.5rem' type='spinningBubbles' color='rgb(156 163 175)'/>
   )
 }
 

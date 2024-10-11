@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../components/Products/Card'
 import Filter from '../components/Filter'
-// import { getProductPage } from '../services/product';
-// import { Product } from '../utilities/DTO/Product';
+import { getProductPage } from '../services/product';
+import { ProductDisplay } from '../utilities/DTO/Product';
+import Loading from '../components/Loading';
 
 const Products: React.FC=() => {
-	// const [products, setProducts] = useState<Product[]>([]);
-	// const [offset] = useState<number>(0);
+	const [products, setProducts] = useState<ProductDisplay[]>([]);
+	const [offset] = useState<number>(0);
+	const [loading, setLoading] = useState<boolean>(true);
 
-	// useEffect(() => {
-	// 	getProductPage((data) => {
-	// 		setProducts(data);
-	// 		console.log(products);
-	// 	}, offset);
-	// }, [offset]);
+	useEffect(() => {
+		getProductPage((data) => {
+			setProducts(data);
+			setTimeout(() => {
+				setLoading(false);
+			}, 1000);
+		}, offset);
+	}, [offset]);
 
 	return (
 		<>
@@ -31,9 +35,17 @@ const Products: React.FC=() => {
 			
 			{/* Products */}
 			<div className='grid grid-cols-2 justify-evenly p-2 gap-2'>
-				<Card src="/img/products1.jpg" title='Title' price={0} />
-				<Card src="/img/products1.jpg" title='Title' price={0} />
-				<Card src="/img/products1.jpg" title='Title' price={0} />
+				{loading
+				?
+				<div className='col-span-2 h-64 flex items-center justify-center'>
+					<Loading />
+				</div>
+				:
+				products.map((product, i) => {
+					return (
+					<Card key={i} src={product.image_path} title={product.title} price={product.price} />
+					);
+				})}
 			</div>
 		</>
 	)
