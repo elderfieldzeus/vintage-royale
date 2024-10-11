@@ -172,7 +172,7 @@ const AddProduct: React.FC = () => {
                 {
                     loading
                     ?
-                    <div className='w-full h-10 flex justify-center items-center'>
+                    <div className='w-full h-14 flex justify-center items-center'>
                         <Loading />
                     </div>
                     :
