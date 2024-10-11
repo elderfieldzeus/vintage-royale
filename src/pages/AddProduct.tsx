@@ -85,12 +85,11 @@ const AddProduct: React.FC = () => {
             }
         }
 
-        handleChanges();
-        
-        setTimeout(() => {
+        (async() => {
+            await handleChanges();
             navigate("/admin/products");
             setLoading(false);
-        }, 500);
+        })()
     }
 
     useEffect(() => {
@@ -173,7 +172,7 @@ const AddProduct: React.FC = () => {
                 {
                     loading
                     ?
-                    <div className='w-full flex justify-center items-center'>
+                    <div className='w-full h-10 flex justify-center items-center'>
                         <Loading />
                     </div>
                     :
