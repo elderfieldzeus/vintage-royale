@@ -12,17 +12,23 @@ interface IDisplayProduct {
 }
 
 const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selectedProduct}) => {
+    const INTERVAL = 5; 
+
+    const [seconds, setSeconds] = useState<number>(0);
     const [imageIndex, setImageIndex] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(0);
 
     const imageRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
+        setSeconds(0);
         setQuantity(1);
         setImageIndex(0);
-        const numOfImages = selectedProduct ? selectedProduct.image_paths.length : 0;
+    }, [selectedProduct]);
 
-        const intervalId = setInterval(() => {
+    useEffect(() => {
+        if(seconds >= INTERVAL) {
+            const numOfImages = selectedProduct ? selectedProduct.image_paths.length : 0;
             const img = imageRef.current;
 
             if(img === null) return;
@@ -35,8 +41,14 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                 img.classList.add('opacity-100');
                 img.classList.remove('opacity-0');
             }, 500);
+            setSeconds(0);
+        }
+    }, [selectedProduct, seconds]);
 
-        }, 5000);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setSeconds((prev) => prev + 1);
+        }, 1000);
 
         return () => clearInterval(intervalId);
 
@@ -45,16 +57,18 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
     const changeImage = (index: number): React.MouseEventHandler<HTMLButtonElement> => () => {
         const img = imageRef.current;
 
-            if(img === null) return;
+        if(img === null) return;
 
-            img.classList.add('opacity-0');
-            img.classList.remove('opacity-100');
+        setSeconds(0);
 
-            setTimeout(() => {
-                setImageIndex(index);
-                img.classList.add('opacity-100');
-                img.classList.remove('opacity-0');
-            }, 500);
+        img.classList.add('opacity-0');
+        img.classList.remove('opacity-100');
+
+        setTimeout(() => {
+            setImageIndex(index);
+            img.classList.add('opacity-100');
+            img.classList.remove('opacity-0');
+        }, 500);
     }
 
     const handleChange = (type: 'add' | 'minus'): React.MouseEventHandler<HTMLButtonElement> => () => {
