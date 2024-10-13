@@ -39,7 +39,6 @@ const Cart: React.FC = () => {
 	}, [cartedItems]);
 
 	useEffect(() => {
-		console.log(products);
 		(async() => {
 			for(let i = 0; i < products.length; i++) {
 				const imageUrl = await getMainImage(products[i].id);

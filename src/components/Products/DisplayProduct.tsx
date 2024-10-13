@@ -82,6 +82,9 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
         if(selectedProduct === null) return;
 
         addCartedItem(quantity, selectedProduct.id, selectedProduct.in_stock);
+        setTimeout(() => {
+            close();
+        }, 150);
     }
 
   return (
