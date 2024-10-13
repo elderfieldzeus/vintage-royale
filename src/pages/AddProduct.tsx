@@ -62,6 +62,7 @@ const AddProduct: React.FC = () => {
         const title = data.get('product_name') as string;
         const price = parseFloat(data.get('price') as string);
         const in_stock = parseInt(data.get('in_stock') as string);
+        const description = data.get('description') as string;
 
         const images: File[] = data.getAll('images') as File[];
 
@@ -80,6 +81,7 @@ const AddProduct: React.FC = () => {
             const product: ProductUpload = {
                 title,
                 price,
+                description,
                 in_stock,
                 category_id
             }

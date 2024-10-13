@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Card from '../components/Products/Card'
 import Filter from '../components/Filter'
-import { getProductCount, getProductPage } from '../services/product';
-import { ProductDisplay } from '../utilities/DTO/Product';
+import { getProductCount, getProductDetails, getProductPage } from '../services/product';
+import { ProductDisplay, ProductSpecifics } from '../utilities/DTO/Product';
 import Loading from '../components/Loading';
 import Pagination from '../components/Pagination';
+import DisplayProduct from '../components/Products/DisplayProduct';
 
 const Products: React.FC=() => {
 	const NUMBER_OF_PRODUCTS = 10;
@@ -13,6 +14,8 @@ const Products: React.FC=() => {
 	const [maxPages, setMaxPages] = useState<number>(0);
 	const [page, setPage] = useState<number>(0);
 	const [loading, setLoading] = useState<boolean>(true);
+	const [showProduct, setShowProduct] = useState<boolean>(false);
+	const [selectedProduct, setSelectedProduct] = useState<ProductSpecifics | null>(null);
 
 	useEffect(() => {
 		getProductCount((max) => {
@@ -29,6 +32,19 @@ const Products: React.FC=() => {
 		}, page, NUMBER_OF_PRODUCTS);
 	}, [page]);
 
+	const openProduct = (product_id: number): React.MouseEventHandler<HTMLButtonElement> => () => {
+		setShowProduct(true);
+		
+		getProductDetails(product_id, (p) => {
+			setSelectedProduct(p);
+		});
+	}
+
+	const closeProduct = (): void => {
+		setShowProduct(false);
+		setSelectedProduct(null);
+	}
+
 	const handleChangePage = (type: 'left' | 'right'): React.MouseEventHandler<HTMLButtonElement> => () => {
 		setLoading(true);
 		setPage(prev => (type === 'left') ? prev - 1 : prev + 1);
@@ -36,6 +52,13 @@ const Products: React.FC=() => {
 
 	return (
 		<>
+			<DisplayProduct 
+				showProduct = {showProduct} 
+				close = {closeProduct}
+				selectedProduct={selectedProduct}
+			/>
+
+
 			<div className='mt-16 h-40 overflow-hidden w-full relative'>
 				<div className='w-full h-full bg-pink-400 bg-opacity-10 absolute'></div>
 				<img src="/img/products1.jpg" className='-mt-12' />
@@ -58,7 +81,13 @@ const Products: React.FC=() => {
 				:
 				products.map((product, i) => {
 					return (
-					<Card key={i} src={product.image_path} title={product.title} price={product.price} />
+					<Card 
+						key={i} 
+						src={product.image_path} 
+						title={product.title} 
+						price={product.price} 
+						handleOpen={openProduct(product.id)}
+					/>
 					);
 				})}
 			</div>

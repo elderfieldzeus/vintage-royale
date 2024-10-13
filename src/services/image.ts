@@ -55,3 +55,30 @@ export async function getMainImage(product_id: number): Promise<string> {
 
     return url.data.publicUrl;
 }
+
+export async function getAllImages(product_id: number): Promise<string[]> {
+    const paths: string[] = [];
+
+    const { data, error } = await supabase
+                        .from("image")
+                        .select("image_path")
+                        .eq("product_id", product_id)
+                        .order('isPrimaryImage', { ascending: false })
+                        .returns<{image_path: string}[]>();
+    
+    if(error || data === null) {
+        console.error(error);
+        return [];
+    }
+
+    for(const image of data) {
+        const url = supabase 
+            .storage
+            .from("products")
+            .getPublicUrl(image.image_path);
+        
+        paths.push(url.data.publicUrl);
+    }    
+
+    return paths;
+}

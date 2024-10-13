@@ -1,7 +1,7 @@
-import { ProductDisplay, ProductUpload } from "../utilities/DTO/Product";
+import { ProductDisplay, ProductSpecifics, ProductUpload } from "../utilities/DTO/Product";
 import supabase from "./supabase";
 import { Category } from "../utilities/DTO/Category";
-import { getMainImage } from "./image";
+import { getAllImages, getMainImage } from "./image";
 
 
 export async function getProductPage(callable: (data: ProductDisplay[]) => void, page: number, limit: number): Promise<void> {
@@ -42,6 +42,27 @@ export async function postProduct(product: ProductUpload): Promise<number> {
 
     const id = (error && !data) ? -1 : data[0].id;
     return id;
+}
+
+export async function getProductDetails(product_id: number, callable: (retProduct: ProductSpecifics) => void): Promise<void> {
+    const { data, error } = await supabase
+                        .from("product")
+                        .select("*")
+                        .eq("id", product_id)
+                        .returns<ProductSpecifics[]>();
+
+    if(error || data === null) {
+        console.log(error);
+        return;
+    }
+
+    const images: string[] = await getAllImages(product_id);
+
+    const product: ProductSpecifics = data[0];
+
+    product.image_paths = images;
+
+    callable(product);
 }
 
 export async function postCategory(category_name: string): Promise<number> {

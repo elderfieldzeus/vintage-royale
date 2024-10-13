@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Searchbar from './Searchbar';
 import NavigateButton from './NavigateButton';
+import BlackFilter from '../BlackFilter';
 
 interface ISidebar {
   showMenu: boolean;
@@ -18,7 +19,7 @@ const Sidebar: React.FC<ISidebar> = ({ showMenu, closeMenu, isAdmin }) => {
 
   return (
     <>
-      <div className={`fixed w-screen h-full ${full && 'bg-black'} bg-opacity-60 transition-all duration-500 z-10`} onClick={closeMenu}></div>
+      <BlackFilter full={full} close={closeMenu} />
       <div className={`${full ? 'w-11/12 px-4' : 'w-0'} h-full bg-white transition-all duration-300 z-20 fixed`}>
 				{showMenu &&
 				<div className={`${full? 'opacity-100':'opacity-0'} transition-all delay-75 duration-300`}>
