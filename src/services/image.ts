@@ -18,11 +18,12 @@ export async function uploadFile(fileBody: File): Promise<string> {
     return filePath;
 }
 
-export async function postImage(image_path: string, product_id: number): Promise<void> {
+export async function postImage(image_path: string, isPrimaryImage: boolean, product_id: number): Promise<void> {
     const { error } = await supabase
                     .from("image")
                     .insert([{
                         image_path,
+                        isPrimaryImage,
                         product_id
                     }]);
 
@@ -36,6 +37,7 @@ export async function getMainImage(product_id: number): Promise<string> {
                         .from("image")
                         .select("image_path")
                         .eq("product_id", product_id)
+                        .eq("isPrimaryImage", true)
                         .returns<{image_path: string}[]>();
     
     if(error) {

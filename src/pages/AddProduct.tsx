@@ -8,10 +8,13 @@ import { ProductUpload } from '../utilities/DTO/Product';
 import { Category } from '../utilities/DTO/Category';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
+import ImageDisplay from '../components/AddProducts/ImageDisplay';
 
 const AddProduct: React.FC = () => {
+    const MAX_NO_IMAGES = 5;
     const navigate = useNavigate();
 
+    const [primaryIndex, setIsPrimaryIndex] = useState<number>(0);
     const [images, setImages] = useState<string[]>([]);
     const [addCategory, setAddCategory] = useState<boolean>(false);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -19,14 +22,14 @@ const AddProduct: React.FC = () => {
 
     const handleUploadFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         if(e.target.files) {
-            const size = Math.min(e.target.files.length, 3);
-            const paths: string[] = [];
+            const size = Math.min(e.target.files.length, MAX_NO_IMAGES);
+            const tempImages: string[] = [];
             
             for(let i = 0; i < size; i++) {
-                paths.push(URL.createObjectURL(e.target.files[i]));
+                tempImages.push(URL.createObjectURL(e.target.files[i]));
             }
 
-            setImages(paths);
+            setImages(tempImages);
         }
     }
 
@@ -38,6 +41,10 @@ const AddProduct: React.FC = () => {
             setAddCategory(false);
         }
     }
+
+    const handleChangePrimaryImage = (index: number): React.MouseEventHandler<HTMLButtonElement> => () => {
+        setIsPrimaryIndex(index);
+	}
 
     const handleSubmitProduct: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -79,9 +86,10 @@ const AddProduct: React.FC = () => {
 
             const productId = await postProduct(product);
 
-            for(const image of images) {
-                const path = await uploadFile(image);
-                await postImage(path, productId);
+            const size = Math.min(images.length, MAX_NO_IMAGES);
+            for(let i = 0; i < size; i++) {
+                const path = await uploadFile(images[i]);
+                await postImage(path, i === primaryIndex, productId);
             }
         }
 
@@ -117,7 +125,7 @@ const AddProduct: React.FC = () => {
                 />
                 <PiUploadThin className=' size-16'/>
                 <p className='font-montserrat text-sm'>Upload Image/s</p>
-                <p className='font-montserrat text-xs'>MAX: 255MB</p>
+                <p className='font-montserrat text-xs'>MAX: 50MB</p>
             </button>
 
             {images.length > 0
@@ -126,12 +134,12 @@ const AddProduct: React.FC = () => {
                 <p 
                     className='font-montserrat leading-3 mt-3 text-xs text-gray-400'
                 >
-                    Your images: 
+                    Select image to be displayed: 
                 </p>
-                <div className='w-full rounded-lg my-2 h-20 flex gap-1 justify-center overflow-scroll'>
+                <div className='w-full my-2 h-20 flex gap-1 justify-center items-center overflow-scroll'>
                     {images.map((image, i) => {
                         return (
-                            <img key={i} src={image} />
+                            <ImageDisplay key={i} image={image} isPrimaryImage={i === primaryIndex} handleChangePrimaryImage = {handleChangePrimaryImage(i)}/>
                         );
                     })}
                 </div>

@@ -4,7 +4,7 @@ import Filter from '../components/Filter'
 import { ProductDisplay } from '../utilities/DTO/Product';
 import { getProductCount, getProductPage } from '../services/product';
 import Loading from '../components/Loading';
-import { PiCaretLeftThin, PiCaretRightThin } from 'react-icons/pi';
+import Pagination from '../components/Pagination';
 
 const HandleProducts: React.FC = () => {
 	const NUMBER_OF_PRODUCTS = 5;
@@ -61,25 +61,11 @@ const HandleProducts: React.FC = () => {
 			{
 				loading
 				||
-				<div className='w-full flex justify-center items-center gap-2 my-3'>
-					<button 
-						onClick={handleChangePage('left')}
-						className={`${page === 0 && 'opacity-0'}`} 
-						disabled = {page === 0}
-					>
-						<PiCaretLeftThin className='size-7' />
-					</button>
-					<div className='size-10 rounded-lg flex justify-center items-center bg-pink-300'>
-						<p className='text-white font-bold font-montserrat text-sm'>{page + 1}</p>
-					</div>
-					<button 
-						onClick={handleChangePage('right')}
-						className={`${page >= maxPages - 1 && 'opacity-0'}`} 
-						disabled = {page >= maxPages - 1}
-					>
-						<PiCaretRightThin className='size-7'/>
-					</button>
-				</div>
+				<Pagination 
+					page={page}
+					maxPages={maxPages}
+					handleChangePage={handleChangePage}	
+				/>
 			}
 		</>
 	)

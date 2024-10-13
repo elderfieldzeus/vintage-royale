@@ -83,7 +83,5 @@ export async function getProductCount(callable: (max : number) => void): Promise
         console.error(error);
     }
 
-    console.log(count);
-
     callable(count ? count : 0);
 }
