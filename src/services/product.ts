@@ -44,6 +44,21 @@ export async function postProduct(product: ProductUpload): Promise<number> {
     return id;
 }
 
+export async function getProductDisplay(product_id: number, callable: (retProduct: ProductDisplay) => void): Promise<void> {
+    const { data, error } = await supabase     
+                        .from("product")
+                        .select("*")
+                        .eq("id", product_id)
+                        .returns<ProductDisplay[]>();
+
+    if(error || data === null) {
+        console.error(error);
+        return;
+    }
+
+    callable(data[0]);
+}
+
 export async function getProductDetails(product_id: number, callable: (retProduct: ProductSpecifics) => void): Promise<void> {
     const { data, error } = await supabase
                         .from("product")

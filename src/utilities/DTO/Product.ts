@@ -8,6 +8,11 @@ export interface Product {
 
 export interface ProductDisplay extends Product {
     image_path: string;
+    in_stock: number;
+}
+
+export interface ProductCart extends ProductDisplay {
+    quantity: number;
 }
 
 export interface ProductUpload {

@@ -4,6 +4,7 @@ import { ProductSpecifics } from '../../utilities/DTO/Product';
 import { RxCross1 } from 'react-icons/rx';
 import Loading from '../Loading';
 import ChangeQuantity from './ChangeQuantity';
+import { addCartedItem } from '../../services/cart';
 
 interface IDisplayProduct {
     showProduct: boolean;
@@ -77,6 +78,12 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
         });
     } 
 
+    const handleAddToCart: React.MouseEventHandler<HTMLButtonElement> = () => {
+        if(selectedProduct === null) return;
+
+        addCartedItem(quantity, selectedProduct.id, selectedProduct.in_stock);
+    }
+
   return (
     <>
         {showProduct && <BlackFilter full={showProduct} close={close} zLevel={20}/>}
@@ -143,7 +150,12 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                                 isValid={quantity < selectedProduct.in_stock}
                             />
                         </div>
-                        <button type='button' className={`w-full h-12 ${quantity > 0 ? 'bg-pink-300 active:bg-pink-400' : 'bg-pink-200'} rounded-xl text-white  transition-colors`} disabled={quantity === 0}>
+                        <button 
+                            type='button' 
+                            className={`w-full h-12 ${quantity > 0 ? 'bg-pink-300 active:bg-pink-400' : 'bg-pink-200'} rounded-xl text-white  transition-colors`} 
+                            disabled={quantity === 0}
+                            onClick={handleAddToCart}   
+                        >
                             <p>Add to Cart</p>
                         </button>
                     </div>
