@@ -78,46 +78,44 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                 selectedProduct
                 ?
                 <>
-                    <div className='mb-36'>
-                        <div className='w-full aspect-square flex justify-center items-center bg-pink-50 overflow-hidden'>
-                            <img ref={imageRef} src={selectedProduct?.image_paths[imageIndex]} className='transition-all duration-500'/>
-                        </div>
-                        <div className='flex w-full gap-2 px-2 items-center h-24'>
-                            {
-                                selectedProduct
-                                &&
-                                selectedProduct.image_paths.map((image, i) => {
-                                    return(
-                                        <button
-                                            type='button'
-                                            key={i}
-                                            className={`aspect-square overflow-hidden transition-all duration-500 ${i === imageIndex ? 'h-16 border-2 border-sky-300' : 'h-12'}`}
-                                            onClick={changeImage(i)}
-                                        >
-                                            <img src={image} className='w-full h-full object-cover'/>
-                                        </button>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className='font-montserrat px-2'>
-                            <p className='text-xl font-semibold leading-5'>Php {selectedProduct.price.toFixed(2)}</p>
-                            <p className='text-base'>{selectedProduct.title} | {selectedProduct.category_name}</p>
-                            <p className='text-xs'>In Stock: {selectedProduct.in_stock}</p>
-                        </div>
+                    <div className='w-full aspect-square flex justify-center items-center bg-pink-50 overflow-hidden'>
+                        <img ref={imageRef} src={selectedProduct?.image_paths[imageIndex]} className='transition-all duration-500'/>
+                    </div>
+                    <div className='flex w-full gap-2 px-2 items-center h-24'>
                         {
-                            selectedProduct.description
+                            selectedProduct
                             &&
-                            <>
-                                <hr className='mt-2 mb-4 border-t border-gray-200' />
-                                <div className='font-montserrat px-2'>
-                                    <p className='text-xs'>Description:</p>
-                                    <p className='text-sm'>{selectedProduct.description}</p>
-                                </div>
-                            </>
+                            selectedProduct.image_paths.map((image, i) => {
+                                return(
+                                    <button
+                                        type='button'
+                                        key={i}
+                                        className={`aspect-square overflow-hidden transition-all duration-500 ${i === imageIndex ? 'h-16 border-2 border-sky-300' : 'h-12'}`}
+                                        onClick={changeImage(i)}
+                                    >
+                                        <img src={image} className='w-full h-full object-cover'/>
+                                    </button>
+                                )
+                            })
                         }
                     </div>
-                    <div className='absolute w-full bg-white bottom-0 pt-2 pb-4 px-4 flex flex-col font-montserrat gap-2'>
+                    <div className='font-montserrat px-2'>
+                        <p className='text-xl font-semibold leading-5'>Php {selectedProduct.price.toFixed(2)}</p>
+                        <p className='text-base'>{selectedProduct.title} | {selectedProduct.category_name}</p>
+                        <p className='text-xs'>In Stock: {selectedProduct.in_stock}</p>
+                    </div>
+                    {
+                        selectedProduct.description
+                        &&
+                        <>
+                            <hr className='mt-2 mb-4 border-t border-gray-200' />
+                            <div className='font-montserrat px-2'>
+                                <p className='text-xs'>Description:</p>
+                                <p className='text-sm'>{selectedProduct.description}</p>
+                            </div>
+                        </>
+                    }
+                    <div className='w-full bg-white bottom-0 pt-2 pb-4 px-4 flex flex-col font-montserrat gap-2'>
                         <div className='flex justify-between items-center h-12 px-2 text-gray-400'>
                             <ChangeQuantity 
                                 type='minus' 
