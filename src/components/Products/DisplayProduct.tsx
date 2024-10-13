@@ -66,7 +66,7 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
   return (
     <>
         {showProduct && <BlackFilter full={showProduct} close={close} zLevel={20}/>}
-        <div className={`fixed z-20 bottom-0 w-full ${showProduct ? 'h-[98vh]' : 'h-0'} transition-all duration-500 rounded-t-2xl bg-white overflow-y-scroll overflow-x-hidden`}>
+        <div className={`fixed z-20 bottom-0 w-full ${showProduct ? 'h-[95svh]' : 'h-0'} transition-all duration-500 rounded-t-2xl bg-white overflow-y-scroll overflow-x-hidden`}>
             {
                 showProduct
                 &&
