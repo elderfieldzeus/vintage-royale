@@ -66,7 +66,7 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
   return (
     <>
         {showProduct && <BlackFilter full={showProduct} close={close} zLevel={20}/>}
-        <div className={`fixed z-20 bottom-0 w-full ${showProduct ? 'h-[95svh]' : 'h-0'} transition-all duration-500 rounded-t-2xl bg-white overflow-y-scroll overflow-x-hidden`}>
+        <div className={`fixed z-20 bottom-0 w-full ${showProduct ? 'h-[100svh]' : 'h-0'} transition-all duration-500 rounded-t-2xl bg-white overflow-y-scroll overflow-x-hidden`}>
             {
                 showProduct
                 &&
@@ -77,7 +77,7 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
             {
                 selectedProduct
                 ?
-                <>
+                <div className='mb-36'>
                     <div className='w-full aspect-square flex justify-center items-center bg-pink-50 overflow-hidden'>
                         <img ref={imageRef} src={selectedProduct?.image_paths[imageIndex]} className='transition-all duration-500'/>
                     </div>
@@ -110,7 +110,7 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                         &&
                         <>
                             <hr className='mt-2 mb-4 border-t border-gray-200' />
-                            <div className='font-montserrat px-2 mb-16'>
+                            <div className='font-montserrat px-2'>
                                 <p className='text-xs'>Description:</p>
                                 <p className='text-sm'>{selectedProduct.description}</p>
                             </div>
@@ -134,7 +134,7 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                             <p>Add to Cart</p>
                         </button>
                     </div>
-                </>
+                </div>
                 :
                 <div className='w-full aspect-square flex justify-center items-center'>
                     <Loading />
