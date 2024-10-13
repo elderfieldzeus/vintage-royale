@@ -57,12 +57,29 @@ export async function getProductDetails(product_id: number, callable: (retProduc
     }
 
     const images: string[] = await getAllImages(product_id);
+    const category_name: string = await getCategoryById(data[0].category_id);
 
     const product: ProductSpecifics = data[0];
 
     product.image_paths = images;
+    product.category_name = category_name;
 
     callable(product);
+}
+
+export async function getCategoryById(category_id: number): Promise<string> {
+    const { data, error } = await supabase    
+                        .from("product_category")
+                        .select("category_name")
+                        .eq("id", category_id)
+                        .returns<{category_name: string}[]>();
+    
+    if(error || data === null) {
+        console.log(error);
+        return "";
+    }
+
+    return data[0].category_name;
 }
 
 export async function postCategory(category_name: string): Promise<number> {

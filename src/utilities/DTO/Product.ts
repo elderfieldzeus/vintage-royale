@@ -22,4 +22,5 @@ export interface ProductSpecifics extends Product {
     image_paths: string[];
     description: string;
     in_stock: number;
+    category_name: string;
 }

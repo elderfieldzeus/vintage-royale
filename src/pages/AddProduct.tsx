@@ -186,7 +186,7 @@ const AddProduct: React.FC = () => {
                         <Loading />
                     </div>
                     :
-                    <input type="submit" className='w-full px-4 py-2 border border-gray-400 bg-pink-300 text-white'/>
+                    <input type="submit" className='w-full h-full bg-pink-300 rounded-lg font-montserrat text-white active:bg-pink-400 transition-colors px-4 py-2 border'/>
                 }
             </div>
         </form>
