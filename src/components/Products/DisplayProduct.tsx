@@ -5,6 +5,7 @@ import { RxCross1 } from 'react-icons/rx';
 import Loading from '../Loading';
 import ChangeQuantity from './ChangeQuantity';
 import { addCartedItem } from '../../services/cart';
+import { FaCircleCheck } from 'react-icons/fa6';
 
 interface IDisplayProduct {
     showProduct: boolean;
@@ -18,8 +19,10 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
     const [seconds, setSeconds] = useState<number>(0);
     const [imageIndex, setImageIndex] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(0);
+    const [added, setAdded] = useState<boolean>(false);
 
     const imageRef = useRef<HTMLImageElement>(null);
+    const addedRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setSeconds(0);
@@ -81,14 +84,42 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
     const handleAddToCart: React.MouseEventHandler<HTMLButtonElement> = () => {
         if(selectedProduct === null) return;
 
+        setAdded(true);
+        
         addCartedItem(quantity, selectedProduct.id, selectedProduct.in_stock);
         setTimeout(() => {
             close();
         }, 150);
+
+        setTimeout(() => {
+            const add = addedRef.current;
+
+            if(add === null) return;
+
+            add.classList.add("opacity-100");
+            add.classList.remove("opacity-0");
+
+            setTimeout(() => {
+                add.classList.add("opacity-0");
+                add.classList.remove("opacity-100");
+
+                setTimeout(() => {
+                    setAdded(false);
+                }, 500);
+            }, 1000);
+        }, 500);
     }
 
   return (
     <>
+        {
+            added
+            &&
+            <div ref={addedRef} className='size-40 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl flex flex-col items-center justify-center gap-3 transition-all duration-300 bg-pink-300 text-white'>
+                <FaCircleCheck className='size-16'/>
+                <p className='font-bold font-montserrat'>Added to Cart.</p>
+            </div>
+        }
         {showProduct && <BlackFilter full={showProduct} close={close} zLevel={20}/>}
         <div className={`fixed z-20 bottom-0 w-full ${showProduct ? 'h-[98dvh]' : 'h-0'} transition-all duration-500 rounded-t-2xl bg-white overflow-y-scroll overflow-x-hidden`}>
             {
