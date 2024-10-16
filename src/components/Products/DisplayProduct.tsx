@@ -6,6 +6,7 @@ import Loading from '../Loading';
 import ChangeQuantity from './ChangeQuantity';
 import { addCartedItem } from '../../services/cart';
 import { FaCircleCheck } from 'react-icons/fa6';
+import PinkButton from '../PinkButton';
 
 interface IDisplayProduct {
     showProduct: boolean;
@@ -184,14 +185,12 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                                 isValid={quantity < selectedProduct.in_stock}
                             />
                         </div>
-                        <button 
-                            type='button' 
-                            className={`w-full h-12 ${quantity > 0 ? 'bg-pink-300 active:bg-pink-400' : 'bg-pink-200'} rounded-xl text-white  transition-colors`} 
+                        <PinkButton 
+                            text='Add to Cart'
+                            type='button'
                             disabled={quantity === 0}
-                            onClick={handleAddToCart}   
-                        >
-                            <p>Add to Cart</p>
-                        </button>
+                            handleClick={handleAddToCart}
+                        />
                     </div>
                 </>
                 :

@@ -12,6 +12,7 @@ import Admin from './pages/Admin';
 import Orders from './pages/Orders';
 import HandleProducts from './pages/HandleProducts';
 import AddProduct from './pages/AddProduct';
+import Checkout from './pages/Checkout';
 
 const App: React.FC = () => {
   const isMobile = useMediaQuery({
@@ -31,6 +32,7 @@ const App: React.FC = () => {
                       <Route path='' element={ <Home /> } />
                       <Route path='products' element={ <Products />} />
                       <Route path='cart' element={ <Cart /> } />
+                      <Route path='checkout' element={<Checkout />} />
                       <Route path='contact' element={ <Contact /> } />
                       <Route path='login' element={<Login />} />
                     </Route>

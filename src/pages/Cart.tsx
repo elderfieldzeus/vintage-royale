@@ -7,11 +7,15 @@ import { getMainImage } from '../services/image';
 import Loading from '../components/Loading';
 import { MdDelete } from 'react-icons/md';
 import ChangeCartQuantity from '../components/Cart/ChangeCartQuantity';
+import PinkButton from '../components/PinkButton';
+import { useNavigate } from 'react-router-dom';
 
 const Cart: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [cartedItems, setCartedItems] = useState<CartedItem[]>([]);
 	const [products, setProducts] = useState<ProductCart[]>([]);
+	const [total, setTotal] = useState<number>(0);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setCartedItems(getCartedItems());
@@ -39,14 +43,19 @@ const Cart: React.FC = () => {
 	}, [cartedItems]);
 
 	useEffect(() => {
+		let tempTotal = 0;
 		(async() => {
 			for(let i = 0; i < products.length; i++) {
 				const imageUrl = await getMainImage(products[i].id);
 				products[i].image_path = imageUrl;
+
+				tempTotal +=  products[i].quantity * products[i].price;
 			}
 			setTimeout(() => {
 				setLoading(false);
 			}, 1000);
+			
+			setTotal(tempTotal);
 		})()
 	}, [products]);
 
@@ -88,6 +97,10 @@ const Cart: React.FC = () => {
 		});
 
 		changeCartItemQuantity(product_id, type, maxQuantity);
+	}
+
+	const handleCheckOut: React.MouseEventHandler<HTMLButtonElement> = () => {
+		navigate('/checkout');
 	}
 
 	return (
@@ -133,6 +146,21 @@ const Cart: React.FC = () => {
 					})
 				}
 			</div>
+
+			{!loading && products.length > 0 
+			&&
+			<div className='w-full px-6 flex flex-col mt-2 font-montserrat'>
+				<div className='flex gap-2'>
+					<p>Total: </p>
+					<p>Php {total.toFixed(2)}</p>
+				</div>
+				<PinkButton 
+					text='Check Out'
+					type='button'
+					disabled={total === 0}
+					handleClick={handleCheckOut}
+				/>
+			</div>}
 		</>
 	)
 }
