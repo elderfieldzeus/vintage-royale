@@ -1,9 +1,14 @@
 import React from 'react'
-import ReactLoading from 'react-loading'
+import ReactLoading, { LoadingType } from 'react-loading'
 
-const Loading: React.FC = () => {
+interface ILoading {
+  size?: string;
+  type?: LoadingType;
+}
+
+const Loading: React.FC<ILoading> = ({size = '2.5rem', type = 'spinningBubbles'}) => {
   return (
-    <ReactLoading height='2.5rem' width='2.5rem' type='spinningBubbles' color='rgb(156 163 175)'/>
+    <ReactLoading height={size} width={size} type={type} color='rgb(156 163 175)'/>
   )
 }
 

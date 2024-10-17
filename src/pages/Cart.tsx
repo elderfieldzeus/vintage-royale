@@ -147,20 +147,22 @@ const Cart: React.FC = () => {
 				}
 			</div>
 
-			{!loading && products.length > 0 
-			&&
-			<div className='w-full px-6 flex flex-col mt-2 font-montserrat'>
-				<div className='flex gap-2'>
-					<p>Total: </p>
-					<p>Php {total.toFixed(2)}</p>
-				</div>
-				<PinkButton 
-					text='Check Out'
-					type='button'
-					disabled={total === 0}
-					handleClick={handleCheckOut}
-				/>
-			</div>}
+      {
+        !loading && products.length > 0 
+        &&
+        <div className='w-full px-6 flex flex-col mt-2 font-montserrat'>
+            <div className='flex gap-2 text-sm w-full h-6'>
+              <p>Total: </p>
+							<p>Php {total.toFixed(2)}</p>
+          </div>
+          <PinkButton 
+            text='Check Out'
+            type='button'
+            disabled={total === 0}
+            handleClick={handleCheckOut}
+          />
+        </div>
+      }
 		</>
 	)
 }

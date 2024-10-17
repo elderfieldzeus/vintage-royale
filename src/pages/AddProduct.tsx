@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PiUploadThin } from 'react-icons/pi'
-import ProductInput from '../components/HandleProducts/ProductInput';
+import Input from '../components/Input';
 import { FaAngleDown } from 'react-icons/fa';
 import { getCategories, postCategory, postProduct } from '../services/product';
 import { postImage, uploadFile } from '../services/image';
@@ -9,6 +9,7 @@ import { Category } from '../utilities/DTO/Category';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import ImageDisplay from '../components/AddProducts/ImageDisplay';
+import PinkButton from '../components/PinkButton';
 
 const AddProduct: React.FC = () => {
     const MAX_NO_IMAGES = 5;
@@ -115,80 +116,84 @@ const AddProduct: React.FC = () => {
         </div>
 
         <form className='w-full px-6' onSubmit={handleSubmitProduct}>
-            <button className='w-full h-48 border-2 border-gray-400 border-dashed rounded-xl flex flex-col items-center justify-center text-gray-400 relative'>
-                <input 
-                    type="file" 
-                    accept='image/*'
-                    multiple
-                    name='images'
-                    className='absolute w-full h-full opacity-0'
-                    onChange={handleUploadFile}
-                    required
-                />
-                <PiUploadThin className=' size-16'/>
-                <p className='font-montserrat text-sm'>Upload Image/s</p>
-                <p className='font-montserrat text-xs'>MAX: 50MB</p>
-            </button>
+					<button className='w-full h-48 border-2 border-gray-400 border-dashed rounded-xl flex flex-col items-center justify-center text-gray-400 relative'>
+						<input 
+							type="file" 
+							accept='image/*'
+							multiple
+							name='images'
+							className='absolute w-full h-full opacity-0'
+							onChange={handleUploadFile}
+							required
+						/>
+						<PiUploadThin className=' size-16'/>
+						<p className='font-montserrat text-sm'>Upload Image/s</p>
+						<p className='font-montserrat text-xs'>MAX: 50MB</p>
+					</button>
 
-            {images.length > 0
-            &&
-            <>
-                <p 
-                    className='font-montserrat leading-3 mt-3 text-xs text-gray-400'
-                >
-                    Select image to be displayed: 
-                </p>
-                <div className='w-full my-2 h-20 flex gap-1 justify-center items-center overflow-scroll'>
-                    {images.map((image, i) => {
-                        return (
-                            <ImageDisplay key={i} image={image} isPrimaryImage={i === primaryIndex} handleChangePrimaryImage = {handleChangePrimaryImage(i)}/>
-                        );
-                    })}
-                </div>
-                <hr className='border-t-2 border-dashed mt-6'/>
-            </>
-            }
+					{images.length > 0
+					&&
+					<>
+						<p 
+						className='font-montserrat leading-3 mt-3 text-xs text-gray-400'
+						>
+							Select image to be displayed: 
+						</p>
+						<div className='w-full my-2 h-20 flex gap-1 justify-center items-center overflow-scroll'>
+							{images.map((image, i) => {
+								return (
+										<ImageDisplay key={i} image={image} isPrimaryImage={i === primaryIndex} handleChangePrimaryImage = {handleChangePrimaryImage(i)}/>
+								);
+							})}
+						</div>
+						<hr className='border-t-2 border-dashed mt-6'/>
+					</>
+					}
 
-            <div className='mt-6 mb-14 font-montserrat flex flex-col gap-2'>
-                <p className='text-xl mb-2'>Product Details</p>
-                <ProductInput name='product_name' type='text' placeholder='Product Name' required = {true}/>
-                <div className='relative w-full'>
-                    <FaAngleDown className='text-gray-400 absolute right-4 top-1/2 -translate-y-1/2'/>
-                    <select
-                        required
-                        name="category"
-                        className='w-full bg-white px-4 py-2 border border-gray-400' defaultValue="default"
-                        onChange={handleSelectOther}
-                    >
-                        <option value="default" disabled hidden className='text-gray-400' >Select Category</option>
-                        {categories.map(({id, category_name}, i) => {
-                            return (
-                                <option key={i} value={id}>{category_name}</option>
-                            );
-                        })}
-                        <option value="_other">Other</option>
-                    </select>
-                </div>
-                {
-                    addCategory
-                    &&
-                    <ProductInput name='category_name' type='text' placeholder='Category Name' required = {true}/>
-                }
-                <div className='flex gap-2'>
-                    <ProductInput name='price' type='number' placeholder='Price' required = {true}/>
-                    <ProductInput name='in_stock' type='number' placeholder='In Stock' required = {true}/>
-                </div>
-                <textarea name="description" className='w-full px-4 py-2 border border-gray-400 h-40 resize-none' placeholder='Description' required></textarea>
-                {
-                    loading
-                    ?
-                    <div className='w-full h-14 flex justify-center items-center'>
-                        <Loading />
-                    </div>
-                    :
-                    <input type="submit" className='w-full h-full bg-pink-300 rounded-lg font-montserrat text-white active:bg-pink-400 transition-colors px-4 py-2 border'/>
-                }
-            </div>
+					<div className='mt-6 mb-14 font-montserrat flex flex-col gap-2'>
+						<p className='text-xl mb-2'>Product Details</p>
+						<Input name='product_name' type='text' placeholder='Product Name' required = {true}/>
+						<div className='relative w-full'>
+							<FaAngleDown className='text-gray-400 absolute right-4 top-1/2 -translate-y-1/2'/>
+							<select
+									required
+									name="category"
+									className='w-full bg-white px-4 py-2 border border-gray-400' defaultValue="default"
+									onChange={handleSelectOther}
+							>
+								<option value="default" disabled hidden className='text-gray-400' >Select Category</option>
+								{categories.map(({id, category_name}, i) => {
+										return (
+												<option key={i} value={id}>{category_name}</option>
+										);
+								})}
+								<option value="_other">Other</option>
+							</select>
+						</div>
+						{
+							addCategory
+							&&
+							<Input name='category_name' type='text' placeholder='Category Name' required = {true}/>
+						}
+						<div className='flex gap-2'>
+							<Input name='price' type='number' placeholder='Price' required = {true}/>
+							<Input name='in_stock' type='number' placeholder='In Stock' required = {true}/>
+						</div>
+						<textarea name="description" className='w-full px-4 py-2 border border-gray-400 h-40 resize-none' placeholder='Description' required></textarea>
+						{
+							loading
+							?
+							<div className='w-full h-14 flex justify-center items-center'>
+									<Loading />
+							</div>
+							:
+							<PinkButton
+								text='Submit'
+								type='submit'
+								disabled={false}
+							/>
+						}
+					</div>
         </form>
     </>
   )

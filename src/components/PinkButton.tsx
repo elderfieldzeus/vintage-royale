@@ -4,10 +4,10 @@ interface IPinkButton {
     text: string;
     type: 'button' | 'submit' | 'reset';
     disabled?: boolean;
-    handleClick: React.MouseEventHandler<HTMLButtonElement>;
+    handleClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const PinkButton: React.FC<IPinkButton> = ({text, type, disabled, handleClick}) => {
+const PinkButton: React.FC<IPinkButton> = ({text, type, disabled = false, handleClick}) => {
   return (
     <button 
         type={type} 

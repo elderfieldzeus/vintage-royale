@@ -1,13 +1,13 @@
 import React from 'react'
 
-interface IProductInput {
+interface IInput {
     name: string;
     type: string;
     placeholder?: string;
     required?: boolean;
 }
 
-const ProductInput: React.FC<IProductInput> = ({name, type, placeholder = '', required = false}) => {
+const Input: React.FC<IInput> = ({name, type, placeholder = '', required = false}) => {
   return (
     <input 
         name={name} 
@@ -19,4 +19,4 @@ const ProductInput: React.FC<IProductInput> = ({name, type, placeholder = '', re
   )
 }
 
-export default ProductInput
+export default Input
