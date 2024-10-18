@@ -9,6 +9,12 @@ export function getCartedItems(): CartedItem[] {
     return cartedItems;
 }
 
+export function getCartedItemsJson(): string {
+    const stringItems = localStorage.getItem(LOCAL_STORAGE_NAME);
+
+    return stringItems ?? '';
+}
+
 export function addCartedItem(quantity: number, product_id: number, maxQuantity: number): void {
     const cartedItems = getCartedItems();
 
