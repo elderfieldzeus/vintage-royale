@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getCartedItems, getCartedItemsJson } from '../services/cart';
+import { clearProducts, getCartedItems, getCartedItemsJson } from '../services/cart';
 import { getProductDisplay } from '../services/product';
 import { getMainImage } from '../services/image';
 import { CartedItem } from '../utilities/DTO/Order';
@@ -8,6 +8,8 @@ import Input from '../components/Input';
 import PinkButton from '../components/PinkButton';
 import Loading from '../components/Loading';
 import { IoAlertCircleOutline } from 'react-icons/io5';
+import { postOrder } from '../services/order';
+import { useNavigate } from 'react-router-dom';
 
 const Checkout: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,6 +17,7 @@ const Checkout: React.FC = () => {
   const [products, setProducts] = useState<ProductCart[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [jsonOrders, setJsonOrders] = useState<string>('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCartedItems(getCartedItems());
@@ -66,7 +69,24 @@ const Checkout: React.FC = () => {
     e.preventDefault();
 
     //handle post order and ordered products
+    const formData = new FormData(e.currentTarget);
 
+    const first_name = formData.get("first_name") as string;
+    const last_name = formData.get("last_name") as string;
+    const customer_email = formData.get("email") as string;
+    const customer_number = formData.get("number") as string;
+    const jsonOrders = formData.get("jsonOrders") as string;
+
+    setLoading(true);
+
+    (async() => {
+      await postOrder(`${last_name}, ${first_name}`, customer_number, customer_email, jsonOrders);
+      clearProducts();
+      setLoading(false);
+      navigate('/');
+    })();
+
+    
   }
 
   return (
@@ -140,7 +160,7 @@ const Checkout: React.FC = () => {
                 })
                 }
 
-                <div className='w-full flex flex-col mt-2 font-montserrat'>
+                <div className='w-full flex flex-col mt-6 font-montserrat'>
                   <div className='flex gap-2 text-sm w-full h-6'>
                     <p>Total: </p>
                     <p>Php {total.toFixed(2)}</p>

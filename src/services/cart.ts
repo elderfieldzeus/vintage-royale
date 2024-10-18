@@ -59,3 +59,7 @@ export function changeCartItemQuantity(product_id: number, type: 'up' | 'down', 
         localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(cartedItems));
     }
 }
+
+export function clearProducts() {
+    localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify([]));
+}
