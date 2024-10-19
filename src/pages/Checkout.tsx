@@ -10,9 +10,15 @@ import Loading from '../components/Loading';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import { postOrder } from '../services/order';
 import { useNavigate } from 'react-router-dom';
+import { FaRegKissWinkHeart } from 'react-icons/fa';
 
 const Checkout: React.FC = () => {
+  const STARTING_SECONDS = 3;
+
   const [loading, setLoading] = useState<boolean>(true);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState<number>(STARTING_SECONDS);
   const [cartedItems, setCartedItems] = useState<CartedItem[]>([]);
   const [products, setProducts] = useState<ProductCart[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -67,6 +73,8 @@ const Checkout: React.FC = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    setSubmitted(true);
+    setSubmitLoading(true);
 
     //handle post order and ordered products
     const formData = new FormData(e.currentTarget);
@@ -77,13 +85,20 @@ const Checkout: React.FC = () => {
     const customer_number = formData.get("number") as string;
     const jsonOrders = formData.get("jsonOrders") as string;
 
-    setLoading(true);
-
     (async() => {
       await postOrder(`${last_name}, ${first_name}`, customer_number, customer_email, jsonOrders);
       clearProducts();
-      setLoading(false);
-      navigate('/');
+      setSubmitLoading(false);
+
+      setInterval(() => {
+        setSeconds(prev => {
+          if(prev - 1 <= 0) {
+            navigate('/');
+          }
+
+          return prev - 1;
+        });
+      }, 1000);
     })();
 
     
@@ -91,6 +106,28 @@ const Checkout: React.FC = () => {
 
   return (
     <>
+      {
+        submitted
+        &&
+        <div className='w-full h-screen fixed bg-black -mt-16 z-20 bg-opacity-50'>
+          <div className='size-44 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl flex flex-col items-center justify-center gap-3 transition-all duration-300 bg-pink-300 text-white'>
+            {
+              submitLoading
+              ?
+              <Loading color='white'/>
+              :
+              <>
+                <FaRegKissWinkHeart className='size-16'/>
+                <div>
+                  <p className='font-bold font-montserrat'>Order Successful.</p>
+                  <p className='text-center font-montserrat text-sm'>{seconds}s</p>
+                </div>
+              </>
+            }
+          </div>
+        </div>
+      }
+
       <div className='mt-16 font-montserrat px-6'>
         <p className='text-3xl py-4'>Checkout</p>
       </div>
@@ -135,7 +172,7 @@ const Checkout: React.FC = () => {
 
                 <div className='w-full flex items-center gap-3 my-1 text-gray-600'>
                   <IoAlertCircleOutline className='size-7'/>
-                  <p className='text-xs'>Note: Self pick-up or meet-up only. Payment will be made upon collection.</p>
+                  <p className='text-xs'>Note: Self pick-up or meet-up only. Payment will be done upon collection. Cheers.</p>
               </div>
               
               <input type="hidden" name='jsonOrders' value={jsonOrders}/>

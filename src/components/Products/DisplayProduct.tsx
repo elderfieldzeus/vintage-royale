@@ -26,14 +26,26 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
     const addedRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setSeconds(0);
+        if(showProduct) {
+            setAdded(false);
+        }
+    }, [showProduct]);
+
+    useEffect(() => {
+        if(selectedProduct) {
+            setSeconds(0);
+        }
+
         setQuantity(1);
         setImageIndex(0);
     }, [selectedProduct]);
 
     useEffect(() => {
         if(seconds >= INTERVAL) {
-            const numOfImages = selectedProduct ? selectedProduct.image_paths.length : 0;
+            setSeconds(0);
+            if(!selectedProduct || selectedProduct.image_paths.length === 1) return;
+
+            const numOfImages = selectedProduct.image_paths.length;
             const img = imageRef.current;
 
             if(img === null) return;
@@ -46,7 +58,6 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                 img.classList.add('opacity-100');
                 img.classList.remove('opacity-0');
             }, 500);
-            setSeconds(0);
         }
     }, [selectedProduct, seconds]);
 
@@ -105,7 +116,9 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
                 add.classList.remove("opacity-100");
 
                 setTimeout(() => {
-                    setAdded(false);
+                    if(!showProduct) {
+                        setAdded(false);
+                    }
                 }, 500);
             }, 1000);
         }, 500);
