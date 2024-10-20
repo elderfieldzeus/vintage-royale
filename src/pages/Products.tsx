@@ -7,11 +7,13 @@ import Loading from '../components/Loading';
 import Pagination from '../components/Pagination';
 import DisplayProduct from '../components/Products/DisplayProduct';
 import { useLocation } from 'react-router-dom';
+import CloseIcon from '../components/CloseIcon';
 
 const Products: React.FC=() => {
 	const NUMBER_OF_PRODUCTS = 10;
 	const location = useLocation();
 
+	const [showCustom, setCustom] = useState<boolean>(false);
 	const [products, setProducts] = useState<ProductDisplay[]>([]);
 	const [maxPages, setMaxPages] = useState<number>(0);
 	const [page, setPage] = useState<number>(0);
@@ -53,6 +55,10 @@ const Products: React.FC=() => {
 		setSelectedProduct(null);
 	}
 
+	const openCustom = (): void => {
+		setCustom(true);
+	}
+
 	const handleChangePage = (type: 'left' | 'right'): React.MouseEventHandler<HTMLButtonElement> => () => {
 		setLoading(true);
 		setPage(prev => (type === 'left') ? prev - 1 : prev + 1);
@@ -60,6 +66,16 @@ const Products: React.FC=() => {
 
 	return (
 		<>
+			{
+				showCustom
+				&&
+				<div className='fixed -mt-16 z-20 w-full h-screen bg-black bg-opacity-60 flex justify-center items-center'>
+					<div className='w-80 h-[30rem] rounded-3xl bg-white relative'>
+						<CloseIcon close={() => {setCustom(false)}} />
+					</div>
+				</div>
+			}
+
 			<DisplayProduct 
 				showProduct = {showProduct} 
 				close = {closeProduct}
@@ -77,7 +93,7 @@ const Products: React.FC=() => {
 				<p className='text-gray-500 text-xs text-justify leading-4'>Discover the timeless elegance of Royal Albert's fine bone china, known for its classic British design and craftsmanship. Perfect for both special occasions and everyday luxury.</p>
 			</div>
 
-			<Filter />
+			<Filter openFilter={openCustom} openSort={openCustom}/>
 			
 			{/* Products */}
 			{

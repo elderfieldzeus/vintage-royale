@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import BlackFilter from '../BlackFilter';
 import { ProductSpecifics } from '../../utilities/DTO/Product';
-import { RxCross1 } from 'react-icons/rx';
 import Loading from '../Loading';
 import ChangeQuantity from './ChangeQuantity';
 import { addCartedItem } from '../../services/cart';
 import { FaCircleCheck } from 'react-icons/fa6';
 import PinkButton from '../PinkButton';
+import CloseIcon from '../CloseIcon';
 
 interface IDisplayProduct {
     showProduct: boolean;
@@ -139,9 +139,7 @@ const DisplayProduct: React.FC<IDisplayProduct> = ({showProduct, close, selected
             {
                 showProduct
                 &&
-                <button className='absolute right-4 top-4 rounded-full bg-gray-400 bg-opacity-30 size-7 flex justify-center items-center' onClick={close}>
-                    <RxCross1 />
-                </button>
+                <CloseIcon close={close} />
             }
             {
                 selectedProduct
