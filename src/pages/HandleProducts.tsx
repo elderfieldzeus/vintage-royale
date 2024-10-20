@@ -25,7 +25,7 @@ const HandleProducts: React.FC = () => {
 			setTimeout(() => {
 				setLoading(false);
 			}, 1000);
-		}, page, NUMBER_OF_PRODUCTS);
+		},"", page, NUMBER_OF_PRODUCTS);
 	}, [page]);
 
 	const handleChangePage = (type: 'left' | 'right'): React.MouseEventHandler<HTMLButtonElement> => () => {

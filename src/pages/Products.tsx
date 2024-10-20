@@ -6,9 +6,11 @@ import { ProductDisplay, ProductSpecifics } from '../utilities/DTO/Product';
 import Loading from '../components/Loading';
 import Pagination from '../components/Pagination';
 import DisplayProduct from '../components/Products/DisplayProduct';
+import { useLocation } from 'react-router-dom';
 
 const Products: React.FC=() => {
 	const NUMBER_OF_PRODUCTS = 10;
+	const location = useLocation();
 
 	const [products, setProducts] = useState<ProductDisplay[]>([]);
 	const [maxPages, setMaxPages] = useState<number>(0);
@@ -24,13 +26,19 @@ const Products: React.FC=() => {
 	}, []);
 
 	useEffect(() => {
+		setLoading(true);
+
+		const {searchParams} = location.state || {};
+		location.state = {};
+
+
 		getProductPage((data) => {
 			setProducts(data);
 			setTimeout(() => {
 				setLoading(false);
 			}, 1000);
-		}, page, NUMBER_OF_PRODUCTS);
-	}, [page]);
+		}, searchParams ?? "", page, NUMBER_OF_PRODUCTS);
+	}, [location, page]);
 
 	const openProduct = (product_id: number): React.MouseEventHandler<HTMLButtonElement> => () => {
 		setShowProduct(true);
@@ -72,6 +80,15 @@ const Products: React.FC=() => {
 			<Filter />
 			
 			{/* Products */}
+			{
+				!loading && products.length === 0
+
+				&&
+
+				<div className='w-full font-montserrat flex justify-center text-gray-400 text-xs mt-10'>
+					<p>No items here at the moment, but new arrivals are on the way!</p>
+				</div>
+			}
 			<div className='grid grid-cols-2 justify-evenly p-2 gap-2'>
 				{loading
 				?

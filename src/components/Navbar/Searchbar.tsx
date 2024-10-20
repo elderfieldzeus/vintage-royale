@@ -19,7 +19,11 @@ const Searchbar: React.FC<ISearchbar> = ({closeMenu}) => {
 			navigate('/login');
 		} 
 		else {
-			navigate('/products');
+			navigate('/products', {
+				state: {
+					searchParams: inputRef.current.value.toLowerCase()
+				}
+			});
 		}
 		closeMenu();
 	}

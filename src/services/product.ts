@@ -4,12 +4,32 @@ import { Category } from "../utilities/DTO/Category";
 import { getAllImages, getMainImage } from "./image";
 
 
-export async function getProductPage(callable: (data: ProductDisplay[]) => void, page: number, limit: number): Promise<void> {
-    const productQuery = supabase
-                    .from("product")
-                    .select('*')
-                    .range(page * limit, (page * limit) + limit - 1)
-                    .returns<ProductDisplay[]>();
+export async function getProductPage(callable: (data: ProductDisplay[]) => void, search: string, page: number, limit: number): Promise<void> {
+    let productQuery;
+    
+    if(search === "") {
+        productQuery = supabase
+            .from("product")
+            .select('*')
+            .range(page * limit, (page * limit) + limit - 1)
+            .returns<ProductDisplay[]>();
+    }
+    else {
+        const category_ids: number[] = await getSimilarCategory(search);
+        let category_string = '';
+
+        category_ids.forEach((cid) => {
+            category_string += `category_id.eq.${cid},`;
+        });
+
+
+        productQuery = supabase
+            .from("product")
+            .select('*')
+            .or(`${category_string}title.ilike.%${search}%,description.ilike.%${search}`)
+            .range(page * limit, (page * limit) + limit - 1)
+            .returns<ProductDisplay[]>();
+    }
 
     const { data, error } = await productQuery;
 
@@ -137,4 +157,25 @@ export async function getProductCount(callable: (max : number) => void): Promise
     }
 
     callable(count ? count : 0);
+}
+
+export async function getSimilarCategory(search: string): Promise<number[]> {
+    const { data, error } = await supabase 
+                        .from("product_category")
+                        .select("*")
+                        .ilike("category_name", `%${search}%`)
+                        .returns<{id: number}[]>();
+
+    if(error || !data) {
+        console.error(error);
+        return [];
+    }
+
+    const ids: number[] = [];
+
+    data.forEach((d) => {
+        ids.push(d.id);
+    });
+
+    return ids;
 }
