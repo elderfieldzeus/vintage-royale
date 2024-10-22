@@ -8,12 +8,17 @@ import Pagination from '../components/Pagination';
 import DisplayProduct from '../components/Products/DisplayProduct';
 import { useLocation } from 'react-router-dom';
 import CloseIcon from '../components/CloseIcon';
+import Checkbox from '../components/Checkbox';
+import Radio from '../components/Radio';
+
+type CustomType = 'Filter' | 'Sort';
 
 const Products: React.FC=() => {
 	const NUMBER_OF_PRODUCTS = 10;
 	const location = useLocation();
 
 	const [showCustom, setCustom] = useState<boolean>(false);
+	const [customType, setCustomType] = useState<CustomType>('Filter');
 	const [products, setProducts] = useState<ProductDisplay[]>([]);
 	const [maxPages, setMaxPages] = useState<number>(0);
 	const [page, setPage] = useState<number>(0);
@@ -55,10 +60,15 @@ const Products: React.FC=() => {
 		setSelectedProduct(null);
 	}
 
-	const openCustom = (): void => {
+	const openCustom = (type: CustomType) => (): void => {
 		setCustom(true);
+		setCustomType(type);
 	}
 
+	const closeCustom = (): void => {
+		setCustom(false);
+	}
+ 
 	const handleChangePage = (type: 'left' | 'right'): React.MouseEventHandler<HTMLButtonElement> => () => {
 		setLoading(true);
 		setPage(prev => (type === 'left') ? prev - 1 : prev + 1);
@@ -70,8 +80,31 @@ const Products: React.FC=() => {
 				showCustom
 				&&
 				<div className='fixed -mt-16 z-20 w-full h-screen bg-black bg-opacity-60 flex justify-center items-center'>
-					<div className='w-80 h-[30rem] rounded-3xl bg-white relative'>
-						<CloseIcon close={() => {setCustom(false)}} />
+					<div className='w-80 h-[30rem] p-10 bg-white relative font-montserrat'>
+							<CloseIcon close={closeCustom} />
+							{
+								customType === 'Filter'
+								?
+								<>
+									<p className='text-xl'>Filter by Category:</p>
+									<div className='flex flex-col my-4 gap-4'>
+										<Checkbox label='Soap' />
+										<Checkbox label='Teacups' />
+										<Checkbox label='Set' />
+										<Checkbox label='Tailwind' />
+									</div>
+								</>
+								:
+								<>
+									<p className='text-xl'>Sort by:</p>
+									<div className='flex flex-col my-4 gap-4'>
+										<Radio name='sort' label='Newest-Oldest' />
+										<Radio name='sort' label='Oldest-Newest' />
+										<Radio name='sort' label='Price: Highest-Lowest' />
+										<Radio name='sort' label='Price: Lowest-Highest' />
+									</div>
+								</>
+							}
 					</div>
 				</div>
 			}
@@ -93,7 +126,7 @@ const Products: React.FC=() => {
 				<p className='text-gray-500 text-xs text-justify leading-4'>Discover the timeless elegance of Royal Albert's fine bone china, known for its classic British design and craftsmanship. Perfect for both special occasions and everyday luxury.</p>
 			</div>
 
-			<Filter openFilter={openCustom} openSort={openCustom}/>
+			<Filter openFilter={openCustom('Filter')} openSort={openCustom('Sort')}/>
 			
 			{/* Products */}
 			{
