@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import CloseIcon from '../components/CloseIcon';
 import Checkbox from '../components/Checkbox';
 import Radio from '../components/Radio';
+import { SortType } from '../utilities/Enum';
 
 type CustomType = 'Filter' | 'Sort';
 
@@ -19,6 +20,7 @@ const Products: React.FC=() => {
 
 	const [showCustom, setCustom] = useState<boolean>(false);
 	const [customType, setCustomType] = useState<CustomType>('Filter');
+	const [sort, setSort] = useState<SortType>(SortType.NEW);
 	const [products, setProducts] = useState<ProductDisplay[]>([]);
 	const [maxPages, setMaxPages] = useState<number>(0);
 	const [page, setPage] = useState<number>(0);
@@ -74,6 +76,10 @@ const Products: React.FC=() => {
 		setPage(prev => (type === 'left') ? prev - 1 : prev + 1);
 	}
 
+	const handleChangeSort = (type: SortType): React.MouseEventHandler<HTMLDivElement> => () => {
+		setSort(type);
+	}
+
 	return (
 		<>
 			{
@@ -98,10 +104,30 @@ const Products: React.FC=() => {
 								<>
 									<p className='text-xl'>Sort by:</p>
 									<div className='flex flex-col my-4 gap-4'>
-										<Radio name='sort' label='Newest-Oldest' />
-										<Radio name='sort' label='Oldest-Newest' />
-										<Radio name='sort' label='Price: Highest-Lowest' />
-										<Radio name='sort' label='Price: Lowest-Highest' />
+											<Radio
+												currentValue={sort}
+												radioValue={SortType.NEW}
+												handleChange={handleChangeSort(SortType.NEW)}
+												label='Released: Newest-Oldest'
+											/>
+											<Radio
+												currentValue={sort}
+												radioValue={SortType.OLD}
+												handleChange={handleChangeSort(SortType.OLD)}
+												label='Released: Oldest-Newest'
+											/>
+											<Radio
+												currentValue={sort}
+												radioValue={SortType.CHEAP}
+												handleChange={handleChangeSort(SortType.CHEAP)}
+												label='Price: Highest-Lowest'
+											/>
+											<Radio
+												currentValue={sort}
+												radioValue={SortType.EXPENSIVE}
+												handleChange={handleChangeSort(SortType.EXPENSIVE)}
+												label='Price: Lowest-Highest'
+											/>
 									</div>
 								</>
 							}

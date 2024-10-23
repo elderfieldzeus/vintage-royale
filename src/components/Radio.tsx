@@ -1,25 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { FaCircleCheck } from 'react-icons/fa6'
+import React from 'react'
+import { SortType } from '../utilities/Enum';
+import { MdOutlineRadioButtonChecked, MdOutlineRadioButtonUnchecked } from 'react-icons/md';
 
 interface IRadio {
-	name: string;
+	currentValue: SortType;
+	radioValue: SortType;
 	label?: string;
-	handleChange?: () => void;
+	handleChange: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const Radio: React.FC<IRadio> = ({ name, label }) => {
-	const [checked, setChecked] = useState<boolean>(false);
-	const inputRef = useRef<HTMLInputElement>(null);
-	
-	const handleToggle = () => {
-		setChecked(true);
-	}
+const Radio: React.FC<IRadio> = ({ currentValue, radioValue, label, handleChange }) => {
+	const IconChecked = (currentValue === radioValue) ? MdOutlineRadioButtonChecked : MdOutlineRadioButtonUnchecked;
 
 	return (
-		<div onClick={handleToggle} className='flex items-center gap-3'>
-			<input ref={inputRef} onChange={() => { }} type="radio" className='' name={name} checked={checked} />
-			<div className='rounded-full size-5 border border-gray-200 bg-gray-50'>
-				<FaCircleCheck className={`${checked || 'hidden'} size-full text-pink-300`} />
+		<div onClick={handleChange} className='flex items-center gap-3'>
+			<div className='rounded-full size-5 bg-gray-50'>
+				<IconChecked className={`${currentValue === radioValue ? 'text-pink-300' : 'text-gray-300' } size-full transition-all`} />
 			</div>
 			<p className=''>{label}</p>
 		</div>
