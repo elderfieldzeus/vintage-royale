@@ -65,7 +65,6 @@ export async function getFilteredProducts(callable: (data: ProductDisplay[]) => 
     }
 
     let orderBy: string, ascending: boolean;
-    console.log(category_string);
 
     switch(sort) {
         case SortType.NEW:
