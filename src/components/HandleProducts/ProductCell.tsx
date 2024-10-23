@@ -16,7 +16,7 @@ const ProductCell: React.FC<IProductCell> = ({product, loading}) => {
         <div className='w-1/5 h-full flex justify-center items-center overflow-hidden'>
             <img src={product.image_path} className='w-full aspect-square object-cover'/>
         </div>
-        <div className='w-2/5 h-full flex flex-col overflow-hidden justify-between py-4 pl-4'>
+        <div className='w-2/5 h-full flex flex-col overflow-hidden justify-evenly py-4 pl-4'>
             <p className='text-sm'>{product.title}</p>
             <p className='text-xs text-gray-600'>Php {product.price.toFixed(2)}</p>
         </div>

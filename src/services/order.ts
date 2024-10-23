@@ -1,5 +1,43 @@
-import { CartedItem } from "../utilities/DTO/Order";
+import { CartedItem, OrderDisplay } from "../utilities/DTO/Order";
 import supabase from "./supabase";
+
+export async function getOrderPage (callable: (orders: OrderDisplay[]) => void, page: number, limit: number): Promise<void> {
+    try {
+        const { data, error } = await supabase
+                            .from("order")
+                            .select("*")
+                            .order("status", { ascending: true })
+                            .range(page * limit, (page * limit) + limit - 1)
+                            .returns<OrderDisplay[]>();
+                            
+
+        if(error || !data) {
+            return console.error(error);
+        }
+
+        callable(data);
+    }
+    catch(error) {
+        console.error(error);
+    }
+}
+
+export async function getOrderCount(callable: (max: number) => void): Promise<void> {
+    try {
+        const { count, error } = await supabase 
+                            .from("order")
+                            .select("*", { count: "exact" });
+
+        if(error || !count) {
+            return console.error(error);
+        }
+
+        callable(count);
+    }
+    catch(error) {
+        console.error(error);
+    }
+}
 
 export async function postOrder (customer_name: string, customer_number: string, customer_email: string, jsonOrders: string) {
     try {

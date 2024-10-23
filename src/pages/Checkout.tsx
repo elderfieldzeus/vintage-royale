@@ -26,6 +26,12 @@ const Checkout: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(seconds <= 0) {
+      navigate('/');
+    }
+  }, [seconds, navigate]);
+
+  useEffect(() => {
     setCartedItems(getCartedItems());
   }, []);
 
@@ -91,13 +97,7 @@ const Checkout: React.FC = () => {
       setSubmitLoading(false);
 
       setInterval(() => {
-        setSeconds(prev => {
-          if(prev - 1 <= 0) {
-            navigate('/');
-          }
-
-          return prev - 1;
-        });
+        setSeconds(prev => prev - 1);
       }, 1000);
     })();
 
@@ -185,7 +185,7 @@ const Checkout: React.FC = () => {
                       <div className='w-1/5 h-full flex justify-center items-center overflow-hidden'>
                         <img src={product.image_path} className='h-full w-auto aspect-square object-cover' />
                       </div>
-                      <div className='w-3/5 h-full flex flex-col overflow-hidden justify-between py-4 pl-4'>
+                      <div className='w-3/5 h-full flex flex-col overflow-hidden justify-evenly py-4 pl-4'>
                         <p className='text-sm'>{product.title}</p>
                         <p className='text-xs text-gray-600'>Php {product.price.toFixed(2)}</p>
                       </div>
