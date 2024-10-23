@@ -15,7 +15,7 @@ const Radio: React.FC<IRadio> = ({ currentValue, radioValue, label, handleChange
 	return (
 		<div onClick={handleChange} className='flex items-center gap-3'>
 			<div className='rounded-full size-5 bg-gray-50'>
-				<IconChecked className={`${currentValue === radioValue ? 'text-pink-300' : 'text-gray-300' } size-full transition-all`} />
+				<IconChecked className={`${currentValue === radioValue ? 'text-pink-300' : 'text-gray-200' } size-full transition-all`} />
 			</div>
 			<p className=''>{label}</p>
 		</div>

@@ -1,7 +1,8 @@
 import { ProductDisplay, ProductSpecifics, ProductUpload } from "../utilities/DTO/Product";
 import supabase from "./supabase";
-import { Category } from "../utilities/DTO/Category";
+import { Category, CategoryFilter } from "../utilities/DTO/Category";
 import { getAllImages, getMainImage } from "./image";
+import { SortType } from "../utilities/Enum";
 
 
 export async function getProductPage(callable: (data: ProductDisplay[]) => void, search: string, page: number, limit: number): Promise<void> {
@@ -11,6 +12,7 @@ export async function getProductPage(callable: (data: ProductDisplay[]) => void,
         productQuery = supabase
             .from("product")
             .select('*')
+            .order('created_at', { ascending: false })
             .range(page * limit, (page * limit) + limit - 1)
             .returns<ProductDisplay[]>();
     }
@@ -30,6 +32,68 @@ export async function getProductPage(callable: (data: ProductDisplay[]) => void,
             .range(page * limit, (page * limit) + limit - 1)
             .returns<ProductDisplay[]>();
     }
+
+    const { data, error } = await productQuery;
+
+    if(data !== null) {
+        for(const d of data) {
+            if(d.id !== undefined) {
+                const path = await getMainImage(d.id);
+                d.image_path = path;
+            }
+        }
+    }
+    
+    if(error) {
+        console.error(error);
+    }
+    
+    callable(data ? data : []);
+}
+
+export async function getFilteredProducts(callable: (data: ProductDisplay[]) => void, page: number, limit: number, categories: CategoryFilter[], sort: SortType): Promise<void> {
+
+    const category_ids: number[] = categories.filter((category) => category.selected === true).map((category) => category.id);
+    let category_string = '';
+
+    category_ids.forEach((cid) => {
+        category_string += `category_id.eq.${cid},`;
+    });
+
+    if(category_string.length > 1) {
+        category_string = category_string.slice(0, -1);
+    }
+
+    let orderBy: string, ascending: boolean;
+    console.log(category_string);
+
+    switch(sort) {
+        case SortType.NEW:
+            orderBy = "created_at";
+            ascending = false;
+            break;
+        case SortType.OLD:
+            orderBy = "created_at";
+            ascending = true;
+            break;
+        case SortType.CHEAP:
+            orderBy = "price";
+            ascending = true;
+            break;
+        case SortType.EXPENSIVE:
+            orderBy = "price";
+            ascending = false;
+            break;
+    }
+    
+
+    const productQuery = supabase
+        .from("product")
+        .select('*')
+        .or(category_string)
+        .order(orderBy, { ascending })
+        .range(page * limit, (page * limit) + limit - 1)
+        .returns<ProductDisplay[]>();
 
     const { data, error } = await productQuery;
 
