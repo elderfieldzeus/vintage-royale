@@ -1,4 +1,7 @@
-import { CartedItem, OrderDisplay } from "../utilities/DTO/Order";
+import { CartedItem, OrderDisplay, OrderedProduct } from "../utilities/DTO/Order";
+import { ProductCart } from "../utilities/DTO/Product";
+import { getMainImage } from "./image";
+import { getProductDisplay } from "./product";
 import supabase from "./supabase";
 
 export async function getOrderPage (callable: (orders: OrderDisplay[]) => void, page: number, limit: number): Promise<void> {
@@ -81,6 +84,38 @@ export async function postOrderProduct(cartedItem: CartedItem, order_id: number)
         if(error) {
             console.error(error);
         }
+    }
+    catch(error) {
+        console.error(error);
+    }
+}
+
+export async function getOrderedProduct(callable: (data: ProductCart[]) => void, orderId: number) {
+    try {
+        const { data, error } = await supabase
+                            .from("ordered_product")
+                            .select("*")
+                            .eq("order_id", orderId)
+                            .returns<OrderedProduct[]>();
+
+        if(error || !data) {
+            return console.error(error);
+        }
+
+        const pCart: ProductCart[] = [];
+
+        for(const d of data) {
+            const imageUrl = await getMainImage(d.product_id);
+            await getProductDisplay(d.product_id, (pDisplay) => {
+                pCart.push({
+                    ...pDisplay,
+                    quantity: d.quantity,
+                    image_path: imageUrl
+                });
+            });
+        }
+
+        callable(pCart);
     }
     catch(error) {
         console.error(error);

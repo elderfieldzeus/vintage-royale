@@ -7,9 +7,10 @@ interface IOrderCell {
     customerName: string;
     date: Date;
     status: OrderStatus;
+    handleOpen: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const OrderCell: React.FC<IOrderCell> = ({id, customerName, date, status}) => {
+const OrderCell: React.FC<IOrderCell> = ({id, customerName, date, status, handleOpen}) => {
     const [statusColor, setStatusColor] = useState<string>('');
 
     useEffect(() => {
@@ -32,7 +33,7 @@ const OrderCell: React.FC<IOrderCell> = ({id, customerName, date, status}) => {
     }, [status]);
 
   return (
-    <div className={`w-full h-12 font-montserrat flex items-center`}>
+    <div onClick={handleOpen} className={`w-full h-12 font-montserrat flex items-center`}>
         <div className='w-1/5 h-full flex justify-center items-center'>
             <p className='text-xs'>{id}</p>
         </div>
